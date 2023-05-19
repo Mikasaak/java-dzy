@@ -30,13 +30,15 @@ public class Screen {
         System.out.println("请选择您的身份\n");
 
         System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*");
-        System.out.println("\t*\t\t\t\t\t\t*");
-        System.out.println("\t*\t\t 1.学生         \t*");
-        System.out.println("\t*\t\t\t\t\t\t*");
-        System.out.println("\t*\t\t 2.老师         \t*");
-        System.out.println("\t*\t\t\t\t\t\t*");
-        System.out.println("\t*\t\t 0.退出系统     \t*");
-        System.out.println("\t*\t\t\t\t\t\t*");
+        System.out.println("\t*\t\t\t\t\t\t");
+        System.out.println("\t*\t\t 1.学生\t");
+        System.out.println("\t*\t\t\t\t\t\t");
+        System.out.println("\t*\t\t 2.老师\t");
+        System.out.println("\t*\t\t\t\t\t\t");
+        System.out.println("\t*\t\t 2.管理员\t");
+        System.out.println("\t*\t\t\t\t\t\t");
+        System.out.println("\t*\t\t 0.退出系统\t");
+        System.out.println("\t*\t\t\t\t\t\t");
         System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*");
         System.out.println("请输入您的选择:");
     }
@@ -69,16 +71,7 @@ public class Screen {
     }
 
 
-    // 管理员选择操作界面
-    public static void managerOperateScreen(String username) {
-        clearScreen();
-        System.out.println("--------------------------------------------------------------");
-        System.out.println("*************管理员-" + username + "-登录此系统*************");
-        System.out.println("--------------------------------------------------------------");
-        System.out.println("请选择您要进行的操作\n");
 
-        // 省略其他界面构建代码...
-    }
 
     // 学生选择操作界面
     public static void studentOperateScreen(String user) {
@@ -87,21 +80,21 @@ public class Screen {
         System.out.println("*************同学--" + user + "-登录此系统**************");
         System.out.println("--------------------------------------------------------------");
         System.out.println("请选择您要进行的操作\n");
-        System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*\t\t 1.申请预约         \t*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*\t\t 2.查看我的预约     \t*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*\t\t 3.查看所有预约     \t*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*\t\t 4.取消预约         \t*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*\t\t *.注销并返回上一级 \t*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*\t\t 0.退出系统         \t*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+        System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*\t\t 1.申请预约");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*\t\t 2.查看我的预约");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*\t\t 3.查看所有预约");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*\t\t 4.取消预约");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*\t\t *.注销并返回上一级");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*\t\t 0.退出系统");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*");
         System.out.println("请输入您的选择:");
     }
 
@@ -112,19 +105,45 @@ public class Screen {
         System.out.println("**************教师--" + username + "-登录此系统*************");
         System.out.println("--------------------------------------------------------------");
         System.out.println("请选择您要进行的操作\n");//构建一开始的主界面
-        System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*\t\t 1.查看所有预约     \t*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*\t\t 2.审核预约         \t*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*\t\t *.注销并返回上一级 \t*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*\t\t 0.直接退出系统     \t*");
-        System.out.println("\t*\t\t\t\t\t*");
-        System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+        System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*\t\t 1.审核预约");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*\t\t 2.查看学生账号");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*\t\t *.注销并返回上一级");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*\t\t 0.直接退出系统");
+        System.out.println("\t*\t\t\t\t\t");
+        System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*");
         System.out.println("请输入您的选择:");
 
+    }
+    // 管理员选择操作界面
+    public static void managerOperateScreen(String username) {
+        clearScreen();
+        System.out.println("--------------------------------------------------------------");
+        System.out.println("*************管理员-" + username + "-登录此系统*************");
+        System.out.println("--------------------------------------------------------------");
+        System.out.println("请选择您要进行的操作\n");
+        System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*");
+        System.out.println("\t*\t\t\t\t\t\t");
+        System.out.println("\t*\t\t 1.查看账号");
+        System.out.println("\t*\t\t\t\t\t\t");
+        System.out.println("\t*\t\t 2.添加账号");
+        System.out.println("\t*\t\t\t\t\t\t");
+        System.out.println("\t*\t\t 3.删除账号");
+        System.out.println("\t*\t\t\t\t\t\t ");
+        System.out.println("\t*\t\t 5.清空预约");
+        System.out.println("\t*\t\t\t\t\t\t ");
+        System.out.println("\t*\t\t *.注销并返回上一级");
+        System.out.println("\t*\t\t\t\t\t\t");
+        System.out.println("\t*\t\t 0.直接退出系统");
+        System.out.println("\t*\t\t\t\t\t\t  ");
+        System.out.println("\t*-*-*-*-*-*-*-*-*-*-*-*-*");
+        System.out.println("请输入您的选择:");
+
+        // 省略其他界面构建代码...
     }
 
 
@@ -216,46 +235,43 @@ public class Screen {
     }
 
     // 显示所在操作层的提示
-    public static void operateLevelShowing(char userType, int operatType) {
+    public static void operateLevelShowing(char userType, int operateType) {
         if (userType == 'M') {
-            if (operatType == 1)
-                System.out.println("**********************进行添加账号的操作**********************\n");
-
-            if (operatType == 2)
+            if (operateType == 1)
                 System.out.println("**********************进行查看账号的操作**********************\n");
 
-            if (operatType == 3)
-                System.out.println("********************进行查看机房信息的操作********************\n");
+            if (operateType == 2)
+                System.out.println("**********************进行添加账号的操作**********************\n");
 
-            if (operatType == 4)
-                System.out.println("********************进行显示所有预约的操作********************\n");
+            if (operateType == 3)
+                System.out.println("**********************进行删除账号的操作**********************\n");
 
-            if (operatType == 5)
+            if (operateType == 4)
                 System.out.println("**********************进行清空预约的操作**********************\n");
         }
 
         if (userType == 'S') {
-            if (operatType == 1)
+            if (operateType == 1)
                 System.out.println("**********************进行申请预约的操作**********************\n");
 
-            if (operatType == 2)
+            if (operateType == 2)
                 System.out.println("********************进行显示我的预约的操作********************\n");
 
-            if (operatType == 3)
+            if (operateType == 3)
                 System.out.println("******************进行显示所有人的预约的操作******************\n");
 
-            if (operatType == 4)
+            if (operateType == 4)
                 System.out.println("*******************进行取消自己的预约的操作*******************\n");
         }
 
         if (userType == 'T') {
-            if (operatType == 1)
-                System.out.println("******************进行显示所有人的预约的操作******************\n");
 
-            if (operatType == 2)
+            if (operateType == 1)
                 System.out.println("******************进行审核申请人的预约的操作******************\n");
-
-            if (operatType == 3)
+            if (operateType == 2) {
+                System.out.println("********************进行查看学生账号的操作*******************\n");
+            }
+            if (operateType == 3)
                 System.out.println("********************进行查看学生账号的操作********************\n");
         }
     }

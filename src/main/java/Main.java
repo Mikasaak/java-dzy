@@ -54,6 +54,27 @@ public class Main {
                     }
                     break;
 
+                case '3': // 用户身份为老师
+                    while (true) {
+//                        Screen.clearScreen();
+                        Screen.managerLoginScreen();
+                        char flag = scanner.next().charAt(0);
+                        scanner.nextLine(); // 清空输入缓冲区
+                        if (flag == '*') {
+                            break;
+                        }
+
+                        if (flag == '0') {
+                            Screen.directExitPrompt();
+                        }
+
+                        Identity user = Operate.loginAndCreate( '3');
+                        if (user != null) {
+                            Operate.managerMainMenuOperate(user);
+                        }
+                    }
+                    break;
+
                 case '0': // 退出系统
                     System.out.println("已退出本系统");
                     scanner.close();

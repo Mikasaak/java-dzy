@@ -11,28 +11,29 @@ import java.util.Scanner;
 
 @ToString
 public class Student extends Identity{
-    private String StudentID;// 学号
+
 
     private String jdbcUrl = "jdbc:mysql://localhost:3306/dzy-java?useSSL=false&serverTimezone=UTC";
     private String sqlusername = "root";
     private String sqlpassword = "root";
-
-
-    public Student(String StudentID, String username, String password) {
-        super.userName=username;
-        super.password=password;
+    private String StudentID;// 学号
+    public Student(String StudentID, String password, String name) {
         this.StudentID = StudentID;
+        super.password=password;
+        super.name =name;
     }
 
 
     @Override
+    //显示操作菜单
     public void menu() {
-        Screen.studentOperateScreen(this.userName);
+        Screen.studentOperateScreen(this.name);
     }
 
     /**
      * @return 是否添加成功
      */
+    //申请预约
     public void applyOrder() {
         Scanner scanner = new Scanner(System.in);
         try {
@@ -181,7 +182,7 @@ public class Student extends Identity{
                     String sqlInsert = "INSERT INTO `order`\n" +
                             "(`order`.ComputerRoomID,`order`.StartDateTime,`order`.EndDateTime,`order`.StudentName,`order`.StudentID,`order`.`Status`)\n" +
                             "VALUES\n" +
-                            "('"+ roomID +"','"+ date +"','"+date2+"','"+ this.StudentID +"','"+ super.userName +"','未审核')";
+                            "('"+ roomID +"','"+ date +"','"+date2+"','"+ this.StudentID +"','"+ super.name +"','审核中')";
                     statement.executeUpdate(sqlInsert);
                     statement.close();
                     connection.close();
@@ -199,12 +200,12 @@ public class Student extends Identity{
     }
 
 
-
+    //显示自己的预约
     public void showMyOrder() {
         try {
             Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
             Statement statement = connection.createStatement();
-            String sql = "SELECT * FROM `order` WHERE StudentID = " + this.StudentID + " AND StudentName = " + super.userName;
+            String sql = "SELECT * FROM `order` WHERE StudentID = " + this.StudentID + " AND StudentName = " + super.name;
             ResultSet resultSet = statement.executeQuery(sql);
             System.out.println("您的预约为:");
             while (resultSet.next()) {
@@ -214,12 +215,12 @@ public class Student extends Identity{
             throw new RuntimeException(e);
         }
     }
-
+    //展示所有预约
     public void showAllOrder() {
         try {
             Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
             Statement statement = connection.createStatement();
-            String sql = "SELECT * FROM `order`";
+            String sql = "SELECT * FROM `order` WHERE Status='审核中' OR Status='已通过'";
             ResultSet resultSet = statement.executeQuery(sql);
             System.out.println("所有预约为:");
             while (resultSet.next()) {
@@ -229,7 +230,7 @@ public class Student extends Identity{
             throw new RuntimeException(e);
         }
     }
-
+    //取消预约
     public void cancelMyOrder() {
 
         Scanner scanner = new Scanner(System.in);
@@ -240,7 +241,7 @@ public class Student extends Identity{
             try {
                 Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
                 Statement statement = connection.createStatement();
-                String sql = "SELECT * FROM `order` WHERE StudentID = " + this.StudentID + " AND StudentName = " + super.userName + " AND id = " + orderID;
+                String sql = "SELECT * FROM `order` WHERE StudentID = " + this.StudentID + " AND StudentName = " + super.name + " AND id = " + orderID;
                 ResultSet resultSet = statement.executeQuery(sql);
                 if (resultSet.next()) {
                     String sqlDelete = "DELETE FROM `order` WHERE id = " + orderID;

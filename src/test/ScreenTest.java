@@ -13,6 +13,7 @@ class ScreenTest {
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
+
     }
 
     @org.junit.jupiter.api.AfterEach
@@ -29,26 +30,32 @@ class ScreenTest {
 
     @org.junit.jupiter.api.Test
     void mainOperateScreen() {
+        Screen.mainOperateScreen();
     }
 
     @org.junit.jupiter.api.Test
     void studentLoginScreen() {
+        Screen.studentLoginScreen();
     }
 
     @org.junit.jupiter.api.Test
     void teacherLoginScreen() {
+        Screen.teacherLoginScreen();
     }
 
     @org.junit.jupiter.api.Test
     void managerLoginScreen() {
+        Screen.managerLoginScreen();
     }
 
     @org.junit.jupiter.api.Test
     void managerOperateScreen() {
+        Screen.managerOperateScreen("12121");
     }
 
     @Test
-    void studentOperateScreen() {
+    public void studentOperateScreen() {
+        Screen.studentOperateScreen("45454");
     }
 
     @org.junit.jupiter.api.Test
@@ -85,6 +92,7 @@ class ScreenTest {
 
     @org.junit.jupiter.api.Test
     void operateLevelShowing() {
+        Screen.operateLevelShowing('T','2');
     }
 
     @org.junit.jupiter.api.Test
