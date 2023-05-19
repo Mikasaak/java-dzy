@@ -96,6 +96,20 @@ public class Operate {
         Screen.loginFailPrompt(); // 登录失败的提示
         return person;
     }
+
+    public static boolean loginPart(String ID, String password, String checkName, char select) {
+        if (select == '1') {//Student
+            return true;
+        }
+        else if (select == '2') {//Teacher
+            return true;
+        }
+        else if (select == '3') {//Manager
+            return true;
+        }
+        return true;
+    }
+
     //学生操作
     public static void studentMainMenuOperate (Identity user) {
         while (true) {

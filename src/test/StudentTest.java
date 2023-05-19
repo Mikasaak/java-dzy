@@ -39,9 +39,16 @@ class StudentTest {
 
     @Test
     void showAllOrder() {
+        new Student("1", "1", "1").showAllOrder();
     }
 
     @Test
     void cancelMyOrder() {
+    }
+    @Test
+    void getReservationInfo() {
+        String info = "";
+        info =  new Student("1", "1", "1").getReservationInfo();
+        System.out.println(info);
     }
 }

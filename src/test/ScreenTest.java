@@ -60,6 +60,7 @@ class ScreenTest {
 
     @org.junit.jupiter.api.Test
     void teacherOperateScreen() {
+        Screen.teacherOperateScreen("45454");
     }
 
     @org.junit.jupiter.api.Test

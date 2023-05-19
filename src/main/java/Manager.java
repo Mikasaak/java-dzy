@@ -355,6 +355,8 @@ public class Manager extends Identity {
             sql = "DELETE FROM manageraccount WHERE ManagerID = '" + ManagerID + "'";
             statement.executeUpdate(sql);
             System.out.println("删除成功");
+
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
