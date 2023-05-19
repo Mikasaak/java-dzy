@@ -96,6 +96,7 @@ public class Operate {
         Screen.loginFailPrompt(); // 登录失败的提示
         return person;
     }
+    //学生操作
     public static void studentMainMenuOperate (Identity user) {
         while (true) {
             user.menu();// 调用父类的menu方法
@@ -145,6 +146,7 @@ public class Operate {
         }
 
     }
+    //教师操作
     public static void teacherMainMenuOperate (Identity user) {
         while (true) {
             user.menu();// 调用父类的menu方法
@@ -181,6 +183,7 @@ public class Operate {
         }
 
     }
+//    管理员操作
     public static void managerMainMenuOperate (Identity user) {
         while (true) {
             user.menu();// 调用父类的menu方法
@@ -189,30 +192,30 @@ public class Operate {
             scanner.nextLine();// 清空输入缓冲区
             if (select == '1')//进行查看账号的操作
             {
-                Screen.operateLevelShowing('T',1);//显示操作层（申请预约）
-                ((Manager) user).auditOrder();
+                Screen.operateLevelShowing('M',1);//显示操作层（申请预约）
+                ((Manager) user).showAccount();
                 Screen.pause();
             }
 
 
             if (select == '2') //进行添加账号的操作
             {
-                Screen.operateLevelShowing('S',3);//显示操作层（显示所有人的预约的操作）
-                ((Manager) user).showAllOrder();
+                Screen.operateLevelShowing('M',2);//显示操作层（显示所有人的预约的操作）
+                ((Manager) user).addAccount();
                 Screen.pause();
             }
 
             if (select == '3') //进行删除账号的操作
             {
-                Screen.operateLevelShowing('S',3);//显示操作层（显示所有人的预约的操作）
-                ((Manager) user).showAllOrder();
+                Screen.operateLevelShowing('M',3);//显示操作层（显示所有人的预约的操作）
+                ((Manager) user).deleteAccount();
                 Screen.pause();
             }
 
             if (select == '4') //进行清空记录的操作
             {
-                Screen.operateLevelShowing('S',3);//显示操作层（显示所有人的预约的操作）
-                ((Manager) user).showAllOrder();
+                Screen.operateLevelShowing('M',4);//显示操作层（显示所有人的预约的操作）
+                ((Manager) user).clearRecord();
                 Screen.pause();
             }
 

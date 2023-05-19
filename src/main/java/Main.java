@@ -54,7 +54,7 @@ public class Main {
                     }
                     break;
 
-                case '3': // 用户身份为老师
+                case '3': // 用户身份为管理员
                     while (true) {
 //                        Screen.clearScreen();
                         Screen.managerLoginScreen();
@@ -81,7 +81,7 @@ public class Main {
                     return;
 
                 default: // 输入的选择不正确
-                    System.out.println("请您输入正确的选择");
+                    System.out.println("请您输入正确的选择(按任意键继续)");
                     scanner.nextLine(); // 清空输入缓冲区
                     break;
             }

@@ -35,7 +35,7 @@ public class Screen {
         System.out.println("\t*\t\t\t\t\t\t");
         System.out.println("\t*\t\t 2.老师\t");
         System.out.println("\t*\t\t\t\t\t\t");
-        System.out.println("\t*\t\t 2.管理员\t");
+        System.out.println("\t*\t\t 3.管理员\t");
         System.out.println("\t*\t\t\t\t\t\t");
         System.out.println("\t*\t\t 0.退出系统\t");
         System.out.println("\t*\t\t\t\t\t\t");
@@ -134,7 +134,7 @@ public class Screen {
         System.out.println("\t*\t\t\t\t\t\t");
         System.out.println("\t*\t\t 3.删除账号");
         System.out.println("\t*\t\t\t\t\t\t ");
-        System.out.println("\t*\t\t 5.清空预约");
+        System.out.println("\t*\t\t 4.清空预约");
         System.out.println("\t*\t\t\t\t\t\t ");
         System.out.println("\t*\t\t *.注销并返回上一级");
         System.out.println("\t*\t\t\t\t\t\t");

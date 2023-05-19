@@ -22,6 +22,7 @@ public class Teacher extends Identity{
         Screen.teacherOperateScreen(this.name);
     }
 
+    //显示所有学生账号
     public void showStudentsAccount() {
         try {
             Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
@@ -44,6 +45,7 @@ public class Teacher extends Identity{
     /**
      * @return boolean审核是否通过
      */
+    //审核预约
     public Boolean auditOrder() {
         
         Scanner scanner = new Scanner(System.in);
