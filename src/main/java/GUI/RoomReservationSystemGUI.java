@@ -99,28 +99,19 @@ public class RoomReservationSystemGUI extends JFrame {
                 String id = idTextField.getText();
                 String password = new String(passwordField.getPassword());
 
-                // 根据身份进行逻辑处理
-                if (identity.equals("学生")) {
-                    if (name.equals("") && id.equals("") && password.equals("")) {
-                        JOptionPane.showMessageDialog(null, "登录成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+                // 根据身份和登录信息进行登录验证
+                boolean loginSuccess = performLogin(identity, name, id, password);
+
+                if (loginSuccess) {
+                    if (identity.equals("学生")) {
                         showStudentPage();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "登录失败", "错误", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else if (identity.equals("教师")) {
-                    if (name.equals("") && id.equals("") && password.equals("")) {
-                        JOptionPane.showMessageDialog(null, "登录成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (identity.equals("教师")) {
                         showTeacherPage();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "登录失败", "错误", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else if (identity.equals("管理员")) {
-                    if (name.equals("") && id.equals("") && password.equals("")) {
-                        JOptionPane.showMessageDialog(null, "登录成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (identity.equals("管理员")) {
                         showAdminPage();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "登录失败", "错误", JOptionPane.ERROR_MESSAGE);
                     }
+                } else {
+                    JOptionPane.showMessageDialog(panel, "登录失败，请检查您的登录信息。", "登录失败", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -129,32 +120,28 @@ public class RoomReservationSystemGUI extends JFrame {
     }
 
     private JPanel createStudentPanel() {
-        JPanel panel = new JPanel(new GridLayout(6, 1));
+        JPanel panel = new JPanel(new GridLayout(5, 1));
 
-        JLabel titleLabel = new JLabel("学生操作界面");
+        JLabel titleLabel = new JLabel("学生操作页面");
         panel.add(titleLabel);
 
         // 添加预约按钮
         JButton addReservationButton = new JButton("添加预约");
         panel.add(addReservationButton);
 
-        // 查看我的预约按钮
+        // 添加查看我的预约按钮
         JButton myReservationButton = new JButton("查看我的预约");
         panel.add(myReservationButton);
 
-        // 查看所有预约按钮
-        JButton allReservationsButton = new JButton("查看所有预约");
-        panel.add(allReservationsButton);
-
-        // 取消预约按钮
+        // 添加取消预约按钮
         JButton cancelReservationButton = new JButton("取消预约");
         panel.add(cancelReservationButton);
 
-        // 添加返回按钮
-        JButton backButton = createBackButton();
+        // 返回按钮
+        JButton backButton = new JButton("返回");
         panel.add(backButton);
 
-        // 设置添加预约按钮的事件监听器
+        // 设置按钮的事件监听器
         addReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -162,7 +149,6 @@ public class RoomReservationSystemGUI extends JFrame {
             }
         });
 
-        // 设置查看我的预约按钮的事件监听器
         myReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -170,19 +156,17 @@ public class RoomReservationSystemGUI extends JFrame {
             }
         });
 
-        // 设置查看所有预约按钮的事件监听器
-        allReservationsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showAllReservationsPage();
-            }
-        });
-
-        // 设置取消预约按钮的事件监听器
         cancelReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showCancelReservationPage();
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showLoginPage();
             }
         });
 
@@ -190,28 +174,60 @@ public class RoomReservationSystemGUI extends JFrame {
     }
 
     private JPanel createAddReservationPanel() {
-        JPanel panel = new JPanel(new GridLayout(6, 1));
+        JPanel panel = new JPanel(new GridLayout(7, 1));
 
-        JLabel titleLabel = new JLabel("添加预约页面");
-        panel.add(titleLabel);
 
-        // 添加预约表单组件
-        // ...
+        // 输入预约机房编号
+        JLabel computerroom = new JLabel("机房编号:");
+        JTextField computerroomTextField = new JTextField();
+        panel.add(computerroom);
+        panel.add(computerroomTextField);
 
-        // 提交预约按钮
-        JButton submitButton = new JButton("提交预约");
+        // 输入预约的开始时间
+        JLabel startdate = new JLabel("预约的开始时间:");
+        JTextField startdateTextField = new JTextField();
+        panel.add(startdate);
+        panel.add(startdateTextField);
+
+        // 输入预约的结束时间
+        JLabel endDate = new JLabel("预约的结束时间:");
+        JTextField endDateTextField = new JTextField();
+        panel.add(endDate);
+
+        panel.add(endDateTextField);
+
+        // 提交按钮
+        JButton submitButton = new JButton("提交");
         panel.add(submitButton);
 
-        // 添加返回按钮
-        JButton backButton = createBackButton();
+        // 返回按钮
+        JButton backButton = new JButton("返回");
         panel.add(backButton);
 
-        // 设置提交预约按钮的事件监听器
+        // 设置按钮的事件监听器
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 处理提交预约逻辑
-                JOptionPane.showMessageDialog(null, "预约提交成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+                String computerRoom = computerroomTextField.getText();
+                String StartDate = startdateTextField.getText();
+                String EndDate = endDateTextField.getText();
+
+                // 执行添加预约的操作
+                boolean reservationAdded = addReservation(computerRoom, StartDate, EndDate);
+
+                if (reservationAdded) {
+                    JOptionPane.showMessageDialog(panel, "预约添加成功。", "添加预约", JOptionPane.INFORMATION_MESSAGE);
+                    showStudentPage();
+                } else {
+                    JOptionPane.showMessageDialog(panel, "预约添加失败，请检查输入信息。", "添加预约失败", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showStudentPage();
             }
         });
 
@@ -219,60 +235,99 @@ public class RoomReservationSystemGUI extends JFrame {
     }
 
     private JPanel createMyReservationPanel() {
-        JPanel panel = new JPanel(new GridLayout(6, 1));
+        JPanel panel = new JPanel(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("查看我的预约页面");
-        panel.add(titleLabel);
+        JLabel titleLabel = new JLabel("我的预约");
+        panel.add(titleLabel, BorderLayout.NORTH);
 
-        // 显示我的预约信息
-        // ...
+        // 创建用于显示数据的文本区域
+        JTextArea reservationTextArea = new JTextArea();
+        JScrollPane scrollPane = new JScrollPane(reservationTextArea);
+        panel.add(scrollPane, BorderLayout.CENTER);
 
-        // 添加返回按钮
-        JButton backButton = createBackButton();
-        panel.add(backButton);
+        // 返回按钮
+        JButton backButton = new JButton("返回");
+        panel.add(backButton, BorderLayout.SOUTH);
+
+        // 设置按钮的事件监听器
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showStudentPage();
+            }
+        });
 
         return panel;
     }
 
     private JPanel createAllReservationsPanel() {
-        JPanel panel = new JPanel(new GridLayout(6, 1));
+        JPanel panel = new JPanel(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("查看所有预约页面");
-        panel.add(titleLabel);
+        JLabel titleLabel = new JLabel("所有预约记录");
+        panel.add(titleLabel, BorderLayout.NORTH);
 
-        // 显示所有预约信息
-        // ...
+        // 创建用于显示数据的文本区域
+        JTextArea reservationTextArea = new JTextArea();
+        JScrollPane scrollPane = new JScrollPane(reservationTextArea);
+        panel.add(scrollPane, BorderLayout.CENTER);
 
-        // 添加返回按钮
-        JButton backButton = createBackButton();
-        panel.add(backButton);
+        // 返回按钮
+        JButton backButton = new JButton("返回");
+        panel.add(backButton, BorderLayout.SOUTH);
+
+        // 设置按钮的事件监听器
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showTeacherPage();
+            }
+        });
 
         return panel;
     }
 
     private JPanel createCancelReservationPanel() {
-        JPanel panel = new JPanel(new GridLayout(6, 1));
+        JPanel panel = new JPanel(new GridLayout(4, 1));
 
         JLabel titleLabel = new JLabel("取消预约页面");
         panel.add(titleLabel);
 
-        // 显示可取消的预约信息
-        // ...
+        // 输入要取消的预约编号
+        JLabel reservationNumberLabel = new JLabel("预约编号:");
+        JTextField reservationNumberTextField = new JTextField();
+        panel.add(reservationNumberLabel);
+        panel.add(reservationNumberTextField);
 
-        // 取消预约按钮
-        JButton cancelButton = new JButton("取消预约");
-        panel.add(cancelButton);
+        // 提交按钮
+        JButton submitButton = new JButton("提交");
+        panel.add(submitButton);
 
-        // 添加返回按钮
-        JButton backButton = createBackButton();
+        // 返回按钮
+        JButton backButton = new JButton("返回");
         panel.add(backButton);
 
-        // 设置取消预约按钮的事件监听器
-        cancelButton.addActionListener(new ActionListener() {
+        // 设置按钮的事件监听器
+        submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 处理取消预约逻辑
-                JOptionPane.showMessageDialog(null, "预约取消成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+                String reservationNumber = reservationNumberTextField.getText();
+
+                // 执行取消预约的操作
+                boolean reservationCanceled = cancelReservation(reservationNumber);
+
+                if (reservationCanceled) {
+                    JOptionPane.showMessageDialog(panel, "预约取消成功。", "取消预约", JOptionPane.INFORMATION_MESSAGE);
+                    showStudentPage();
+                } else {
+                    JOptionPane.showMessageDialog(panel, "预约取消失败，请检查输入信息。", "取消预约失败", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showStudentPage();
             }
         });
 
@@ -280,36 +335,42 @@ public class RoomReservationSystemGUI extends JFrame {
     }
 
     private JPanel createTeacherPanel() {
-        JPanel panel = new JPanel(new GridLayout(6, 1));
+        JPanel panel = new JPanel(new GridLayout(4, 1));
 
-        JLabel titleLabel = new JLabel("教师操作界面");
+        JLabel titleLabel = new JLabel("教师操作页面");
         panel.add(titleLabel);
 
-        // 查看所有预约按钮
-        JButton allReservationsButton = new JButton("查看所有预约");
-        panel.add(allReservationsButton);
+        // 添加查看审批记录按钮
+        JButton viewApprovalRecordsButton = new JButton("审批记录");
+        panel.add(viewApprovalRecordsButton);
 
-        // 取消预约按钮
-        JButton cancelReservationButton = new JButton("取消预约");
-        panel.add(cancelReservationButton);
+        // 添加查看所有预约记录按钮
+        JButton viewAllRecordsButton = new JButton("查看所有记录");
+        panel.add(viewAllRecordsButton);
 
-        // 添加返回按钮
-        JButton backButton = createBackButton();
+        // 返回按钮
+        JButton backButton = new JButton("返回");
         panel.add(backButton);
 
-        // 设置查看所有预约按钮的事件监听器
-        allReservationsButton.addActionListener(new ActionListener() {
+        // 设置按钮的事件监听器
+        viewApprovalRecordsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showApprovalRecordsPage();
+            }
+        });
+
+        viewAllRecordsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showAllReservationsPage();
             }
         });
 
-        // 设置取消预约按钮的事件监听器
-        cancelReservationButton.addActionListener(new ActionListener() {
+        backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showCancelReservationPage();
+                showLoginPage();
             }
         });
 
@@ -317,32 +378,31 @@ public class RoomReservationSystemGUI extends JFrame {
     }
 
     private JPanel createAdminPanel() {
-        JPanel panel = new JPanel(new GridLayout(6, 1));
+        JPanel panel = new JPanel(new GridLayout(4, 1));
 
-        JLabel titleLabel = new JLabel("管理员界面");
+        JLabel titleLabel = new JLabel("管理员页面");
         panel.add(titleLabel);
 
-        // 查看所有预约按钮
-        JButton allReservationsButton = new JButton("查看所有预约");
-        panel.add(allReservationsButton);
+        // 添加查看所有预约记录按钮
+        JButton viewAllRecordsButton = new JButton("查看所有记录");
+        panel.add(viewAllRecordsButton);
 
-        // 取消预约按钮
+        // 添加取消预约按钮
         JButton cancelReservationButton = new JButton("取消预约");
         panel.add(cancelReservationButton);
 
-        // 添加返回按钮
-        JButton backButton = createBackButton();
+        // 返回按钮
+        JButton backButton = new JButton("返回");
         panel.add(backButton);
 
-        // 设置查看所有预约按钮的事件监听器
-        allReservationsButton.addActionListener(new ActionListener() {
+        // 设置按钮的事件监听器
+        viewAllRecordsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showAllReservationsPage();
             }
         });
 
-        // 设置取消预约按钮的事件监听器
         cancelReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -350,18 +410,33 @@ public class RoomReservationSystemGUI extends JFrame {
             }
         });
 
-        return panel;
-    }
-
-    private JButton createBackButton() {
-        JButton backButton = new JButton("返回");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showLoginPage();
             }
         });
-        return backButton;
+
+        return panel;
+    }
+
+    private boolean performLogin(String identity, String name, String id, String password) {
+        // 执行登录验证的逻辑
+        // 返回登录验证结果，登录成功返回true，登录失败返回false
+        return true;//test
+//        return false;
+    }
+
+    private boolean addReservation(String date, String timeSlot, String purpose) {
+        // 执行添加预约的逻辑
+        // 返回添加预约的结果，添加成功返回true，添加失败返回false
+        return false;
+    }
+
+    private boolean cancelReservation(String reservationNumber) {
+        // 执行取消预约的逻辑
+        // 返回取消预约的结果，取消成功返回true，取消失败返回false
+        return false;
     }
 
     private void showLoginPage() {
@@ -396,8 +471,13 @@ public class RoomReservationSystemGUI extends JFrame {
         cardLayout.show(cardPanel, "Admin");
     }
 
+    private void showApprovalRecordsPage() {
+        // 显示审批记录页面的逻辑
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new RoomReservationSystemGUI().setVisible(true);
             }
