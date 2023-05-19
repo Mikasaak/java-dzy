@@ -208,9 +208,14 @@ public class Student extends Identity{
     public void showMyOrder() {
         try {
             Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
-            Statement statement = connection.createStatement();
+//            Statement statement = connection.createStatement();
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             String sql = "SELECT * FROM `order` WHERE StudentID = " + this.StudentID + " AND StudentName = " + super.name;
             ResultSet resultSet = statement.executeQuery(sql);
+            if (!resultSet.next()) {
+                System.out.println("您暂无预约");
+                return;
+            }
             System.out.println("您的预约为:");
             while (resultSet.next()) {
                 System.out.println("预约编号: "+ resultSet.getString("id")+" 机房编号: " + resultSet.getString("ComputerRoomID") + " 开始时间: " + resultSet.getString("StartDateTime") + " 结束时间: " + resultSet.getString("EndDateTime") + " 状态: " + resultSet.getString("Status"));
@@ -219,6 +224,34 @@ public class Student extends Identity{
             throw new RuntimeException(e);
         }
     }
+
+    public String getMyReservationInfo(){
+        StringBuilder info = new StringBuilder();
+        info.append("您的预约为:\n");
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+//            Statement statement = connection.createStatement();
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String sql = "SELECT * FROM `order` WHERE StudentID = " + this.StudentID + " AND StudentName = " + super.name;
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (!resultSet.next()) {
+                info = new StringBuilder("您暂无预约");
+                return info.toString();
+            }
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                info.append("预约编号: ").append(resultSet.getString("id"))
+                        .append(" 机房编号: ").append(resultSet.getString("ComputerRoomID"))
+                        .append(" 开始时间: ").append(resultSet.getString("StartDateTime"))
+                        .append(" 结束时间: ").append(resultSet.getString("EndDateTime"))
+                        .append(" 状态: ").append(resultSet.getString("Status")).append("\n");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return info.toString();
+    }
+
     //展示所有预约
     public void showAllOrder() {
         try {
@@ -228,21 +261,21 @@ public class Student extends Identity{
             String sql = "SELECT * FROM `order` WHERE Status='审核中' OR Status='审核通过'";
             ResultSet resultSet = statement.executeQuery(sql);
             if (!resultSet.next()) {
-                System.out.println("暂无预约");
+                System.out.println("暂无审核中和审核通过的预约");
                 return;
             }
             resultSet.beforeFirst();
-            System.out.println("所有预约为:");
+            System.out.println("所有审核中和审核通过的预约为:");
             while (resultSet.next()) {
-                System.out.println("预约编号: "+ resultSet.getString("id") + " 机房编号: " + resultSet.getString("ComputerRoomID") + " 开始时间: " + resultSet.getString("StartDateTime") + " 结束时间: " + resultSet.getString("EndDateTime") + " 状态: " + resultSet.getString("Status"));
+                System.out.println("预约编号: "+ resultSet.getString("id") + " 机房编号: " + resultSet.getString("ComputerRoomID") + " 开始时间: " + resultSet.getString("StartDateTime") + " 结束时间: " + resultSet.getString("EndDateTime") + " 姓名: " +resultSet.getString("StudentName")  +" 学号: " +resultSet.getString("StudentID")  + " 状态: " + resultSet.getString("Status"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public String getReservationInfo() {
+    public String getAllReservationInfo() {
         StringBuilder info = new StringBuilder();
-        info.append("所有预约为:\n");
+        info.append("所有审核中和审核通过的预约为:\n");
         try {
             Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
 //            Statement statement = connection.createStatement();
@@ -250,12 +283,17 @@ public class Student extends Identity{
             String sql = "SELECT * FROM `order` WHERE Status='审核中' OR Status='审核通过'";
             ResultSet resultSet = statement.executeQuery(sql);
             if (!resultSet.next()) {
-                info = new StringBuilder("暂无预约");
+                info = new StringBuilder("暂无审核中和审核通过的预约");
                 return info.toString();
             }
             resultSet.beforeFirst();
             while (resultSet.next()) {
-                info.append("预约编号: ").append(resultSet.getString("id")).append(" 机房编号: ").append(resultSet.getString("ComputerRoomID")).append(" 开始时间: ").append(resultSet.getString("StartDateTime")).append(" 结束时间: ").append(resultSet.getString("EndDateTime")).append(" 状态: ").append(resultSet.getString("Status")).append("\n");
+                info.append("预约编号: ").append(resultSet.getString("id")).append(" 机房编号: ").append(resultSet.getString("ComputerRoomID"))
+                        .append(" 开始时间: ").append(resultSet.getString("StartDateTime"))
+                        .append(" 结束时间: ").append(resultSet.getString("EndDateTime"))
+                        .append(" 姓名: ").append(resultSet.getString("StudentName"))
+                        .append(" 学号: ") .append(resultSet.getString("StudentID"))
+                        .append(" 状态: ").append(resultSet.getString("Status")).append("\n");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

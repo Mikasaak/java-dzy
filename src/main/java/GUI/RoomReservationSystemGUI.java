@@ -248,6 +248,8 @@ public class RoomReservationSystemGUI extends JFrame {
         SetTextFormatJButton(myReservationButton);
         panel.add(myReservationButton);
 
+
+        // 添加查看所有预约按钮
         JButton AllReservationButton = new JButton("查看所有预约");
         SetTextFormatJButton(AllReservationButton);
         panel.add(AllReservationButton);
@@ -276,6 +278,13 @@ public class RoomReservationSystemGUI extends JFrame {
             }
         });
 
+        AllReservationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAllReservationsPage();
+            }
+        });
+
         cancelReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -295,35 +304,50 @@ public class RoomReservationSystemGUI extends JFrame {
 
     //添加预约界面
     private JPanel createAddReservationPanel() {
-        JPanel panel = new JPanel(new GridLayout(7, 1));
+        JPanel panel = new JPanel(new GridLayout(6, 2));
 
+        JLabel titleLabel = new JLabel("添加预约");
+        SetTextFormatJLabel(titleLabel);
+        panel.add(titleLabel);
+        JLabel emptyLabel = new JLabel("输入预约信息");
+        SetTextFormatJLabel(emptyLabel);
+        panel.add(emptyLabel);
 
         // 输入预约机房编号
         JLabel computerroom = new JLabel("机房编号:");
         JTextField computerroomTextField = new JTextField();
+        SetTextFormatJLabel(computerroom);
+        SetTextFormatJTextField(computerroomTextField);
         panel.add(computerroom);
         panel.add(computerroomTextField);
 
         // 输入预约的开始时间
         JLabel startdate = new JLabel("预约的开始时间:");
         JTextField startdateTextField = new JTextField();
+        SetTextFormatJLabel(startdate);
+        SetTextFormatJTextField(startdateTextField);
         panel.add(startdate);
         panel.add(startdateTextField);
 
         // 输入预约的结束时间
         JLabel endDate = new JLabel("预约的结束时间:");
         JTextField endDateTextField = new JTextField();
+        SetTextFormatJLabel(endDate);
+        SetTextFormatJTextField(endDateTextField);
+
         panel.add(endDate);
-
         panel.add(endDateTextField);
-
-        // 提交按钮
-        JButton submitButton = new JButton("提交");
-        panel.add(submitButton);
 
         // 返回按钮
         JButton backButton = new JButton("返回");
+        SetTextFormatJButton(backButton);
         panel.add(backButton);
+        // 提交按钮
+        JButton submitButton = new JButton("提交");
+        SetTextFormatJButton(submitButton);
+        panel.add(submitButton);
+
+
 
         // 设置按钮的事件监听器
         submitButton.addActionListener(new ActionListener() {
@@ -360,6 +384,7 @@ public class RoomReservationSystemGUI extends JFrame {
         JPanel panel = new JPanel(new BorderLayout());
 
         JLabel titleLabel = new JLabel("我的预约");
+        SetTextFormatJLabel(titleLabel);
         panel.add(titleLabel, BorderLayout.NORTH);
 
         // 创建用于显示数据的文本区域
@@ -368,6 +393,8 @@ public class RoomReservationSystemGUI extends JFrame {
         reservationTextArea = new JTextArea();
         reservationTextArea.setEditable(false); // 设置为只读
         reservationTextArea.setLineWrap(true); // 自动换行
+        reservationTextArea.setWrapStyleWord(true); // 断行不断字
+        reservationTextArea.setFont(new Font("宋体", Font.PLAIN, 15));
 
         // 创建JScrollPane，并将JTextArea添加到其中
         JScrollPane scrollPane = new JScrollPane(reservationTextArea);
@@ -377,13 +404,14 @@ public class RoomReservationSystemGUI extends JFrame {
         panel.add(scrollPane, BorderLayout.CENTER);
 
         // 获取预约信息
-        String reservationInfo = student.getReservationInfo();
+        String reservationInfo = student.getMyReservationInfo();
         // 添加内容到JTextArea
         reservationTextArea.append(reservationInfo);
 //        panel.add(scrollPane, BorderLayout.CENTER);
 
         // 返回按钮
         JButton backButton = new JButton("返回");
+        SetTextFormatJButton(backButton);
         panel.add(backButton, BorderLayout.SOUTH);
 
         // 设置按钮的事件监听器
@@ -401,25 +429,45 @@ public class RoomReservationSystemGUI extends JFrame {
     private JPanel createAllReservationsPanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("所有预约记录");
+        JLabel titleLabel = new JLabel("所有预约");
+        SetTextFormatJLabel(titleLabel);
         panel.add(titleLabel, BorderLayout.NORTH);
 
         // 创建用于显示数据的文本区域
-        JTextArea reservationTextArea = new JTextArea();
+        JTextArea reservationTextArea = null;
+//        JScrollPane scrollPane = new JScrollPane(reservationTextArea);
+        reservationTextArea = new JTextArea();
+        reservationTextArea.setEditable(false); // 设置为只读
+        reservationTextArea.setLineWrap(true); // 自动换行
+        reservationTextArea.setWrapStyleWord(true); // 断行不断字
+        reservationTextArea.setFont(new Font("宋体", Font.PLAIN, 15));
+
+        // 创建JScrollPane，并将JTextArea添加到其中
         JScrollPane scrollPane = new JScrollPane(reservationTextArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); // 显示垂直滚动条
+
+        // 将JScrollPane添加到面板的中间区域
         panel.add(scrollPane, BorderLayout.CENTER);
+
+        // 获取预约信息
+        String reservationInfo = student.getAllReservationInfo();
+        // 添加内容到JTextArea
+        reservationTextArea.append(reservationInfo);
+//        panel.add(scrollPane, BorderLayout.CENTER);
 
         // 返回按钮
         JButton backButton = new JButton("返回");
+        SetTextFormatJButton(backButton);
         panel.add(backButton, BorderLayout.SOUTH);
 
         // 设置按钮的事件监听器
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showTeacherPage();
+                showStudentPage();
             }
         });
+
 
         return panel;
     }
@@ -429,21 +477,31 @@ public class RoomReservationSystemGUI extends JFrame {
         JPanel panel = new JPanel(new GridLayout(4, 1));
 
         JLabel titleLabel = new JLabel("取消预约页面");
+        SetTextFormatJLabel(titleLabel);
         panel.add(titleLabel);
+        JLabel tipLabel = new JLabel("输入");
+        SetTextFormatJLabel(tipLabel);
+        panel.add(tipLabel);
 
         // 输入要取消的预约编号
         JLabel reservationNumberLabel = new JLabel("预约编号:");
         JTextField reservationNumberTextField = new JTextField();
+        SetTextFormatJLabel(reservationNumberLabel);
+        SetTextFormatJTextField(reservationNumberTextField);
         panel.add(reservationNumberLabel);
         panel.add(reservationNumberTextField);
 
-        // 提交按钮
-        JButton submitButton = new JButton("提交");
-        panel.add(submitButton);
-
         // 返回按钮
         JButton backButton = new JButton("返回");
+        SetTextFormatJButton(backButton);
         panel.add(backButton);
+
+        // 提交按钮
+        JButton submitButton = new JButton("提交");
+        SetTextFormatJButton(submitButton);
+        panel.add(submitButton);
+
+
 
         // 设置按钮的事件监听器
         submitButton.addActionListener(new ActionListener() {

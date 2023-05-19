@@ -35,6 +35,7 @@ class StudentTest {
 
     @Test
     void showMyOrder() {
+        new Student("1", "1", "1").showMyOrder();
     }
 
     @Test
@@ -48,7 +49,7 @@ class StudentTest {
     @Test
     void getReservationInfo() {
         String info = "";
-        info =  new Student("1", "1", "1").getReservationInfo();
+        info =  new Student("1", "1", "1").getMyReservationInfo();
         System.out.println(info);
     }
 }
