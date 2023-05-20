@@ -42,6 +42,54 @@ public class Teacher extends Identity{
 
     }
 
+    public  String getStudentAccount () {
+        StringBuilder info = new StringBuilder();
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM studentaccount";
+            ResultSet resultSet = statement.executeQuery(sql);
+            info.append("所有学生账号为:\n");
+            while (resultSet.next()) {
+                String StudentID = resultSet.getString("StudentID");
+                String Password = resultSet.getString("Password");
+                String Name = resultSet.getString("Name");
+                info.append(" 姓名:").append(Name).append("学号:").append(StudentID).append(" 密码:").append(Password).append("\n");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return info.toString();
+    }
+
+    public String getAllReservationInfo() {
+        StringBuilder info = new StringBuilder();
+        info.append("所有审核中和审核通过的预约为:\n");
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+//            Statement statement = connection.createStatement();
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String sql = "SELECT * FROM `order` WHERE Status='审核中' OR Status='审核通过'";
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (!resultSet.next()) {
+                info = new StringBuilder("暂无审核中和审核通过的预约");
+                return info.toString();
+            }
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                info.append("预约编号: ").append(resultSet.getString("id")).append(" 机房编号: ").append(resultSet.getString("ComputerRoomID"))
+                        .append(" 开始时间: ").append(resultSet.getString("StartDateTime"))
+                        .append(" 结束时间: ").append(resultSet.getString("EndDateTime"))
+                        .append(" 姓名: ").append(resultSet.getString("StudentName"))
+                        .append(" 学号: ") .append(resultSet.getString("StudentID"))
+                        .append(" 状态: ").append(resultSet.getString("Status")).append("\n");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return info.toString();
+    }
+
     /**
      * @return boolean审核是否通过
      */
