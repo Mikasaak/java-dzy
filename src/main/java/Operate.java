@@ -28,18 +28,13 @@ public class Operate {
             System.out.print("请输入您的密码\nPassword:");
             password = scanner.next();
             if (select == '1') { // 对学生身份的人进行身份验证
-                String query = "SELECT StudentID,  Password FROM studentaccount";
+                String query = "SELECT StudentID,  Password ,Name FROM studentaccount";
                 ResultSet resultSet = statement.executeQuery(query);
                 while (resultSet.next()) {
                     String checkID = resultSet.getString("StudentID"); // 数据库中读出的用于验证登录的ID,username,password
                     String checkPassword = resultSet.getString("Password");
-
+                    checkName = resultSet.getString("Name");// 将读取到的Name赋值给checkName
                     if (checkID.equals(ID) && checkPassword.equals(password)) {
-                        query = "SELECT Name FROM studentaccount WHERE StudentID = " + checkID + " AND Password = " + password;
-                        resultSet = statement.executeQuery(query);
-                        while (resultSet.next()) {
-                            checkName = resultSet.getString("Name");
-                        }
                         Screen.loginSuccessPrompt(select); // 登录成功的提示
                         person = new Student(ID , password, checkName); // 创建学生对象，并赋值给父类对象
                         return person;
@@ -49,18 +44,13 @@ public class Operate {
             }
 
             else if (select == '2') { // 对教师身份的人进行身份验证
-                String query = "SELECT TeacherID, Password FROM teacheraccount";
+                String query = "SELECT TeacherID, Password ,Name  FROM teacheraccount";
                 ResultSet resultSet = statement.executeQuery(query);
                 while (resultSet.next()) {
                     String checkID = resultSet.getString("TeacherID"); // 数据库中读出的用于验证登录的ID,username,password
                     String checkPassword = resultSet.getString("Password");
-
+                    checkName = resultSet.getString("Name");// 将读取到的Name赋值给checkName
                     if (checkID.equals(ID) &&  checkPassword.equals(password)) {
-                        query = "SELECT Name FROM teacheraccount WHERE TeacherID = " + checkID + " AND Password = " + password;
-                        resultSet = statement.executeQuery(query);
-                        while (resultSet.next()) {
-                            checkName = resultSet.getString("Name");
-                        }
                         Screen.loginSuccessPrompt(select); // 登录成功的提示
                         person = new Teacher(ID, password, checkName); // 创建教师对象，并赋值给父类对象
                         return person;
@@ -68,17 +58,13 @@ public class Operate {
                 }
             }
             else if (select == '3') { // 对管理员身份的人进行身份验证
-                String query = "SELECT ManagerID,Password FROM manageraccount";
+                String query = "SELECT ManagerID,Password, Name FROM manageraccount";
                 ResultSet resultSet = statement.executeQuery(query);
                 while (resultSet.next()) {
                     String checkID = resultSet.getString("ManagerID"); // 数据库中读出的用于验证登录的ID,username,password
                     String checkPassword = resultSet.getString("Password");
+                    checkName = resultSet.getString("Name");// 将读取到的Name赋值给checkName
                     if (checkID.equals(ID) && checkPassword.equals(password)) {
-                        query = "SELECT Name FROM manageraccount WHERE ManagerID = " + checkID + " AND Password = " + password;
-                        resultSet = statement.executeQuery(query);
-                        while (resultSet.next()) {
-                            checkName = resultSet.getString("Name");
-                        }
                         Screen.loginSuccessPrompt(select); // 登录成功的提示
                         person = new Manager(ID, password, checkName); // 创建学生对象，并赋值给父类对象
                         return person;
@@ -97,18 +83,60 @@ public class Operate {
         return person;
     }
 
-    public static boolean loginPart(String ID, String password, String checkName, char select) {
-        if (select == '1') {//Student
-            return true;
+    public static boolean loginPart(String ID, String password, char select) {
+        boolean flag = false;
+        try {
+            // 连接数据库
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dzy-java", "root", "root");
+            Statement statement = connection.createStatement();// 创建Statement对象
+            if (select == '1') { // 对学生身份的人进行身份验证
+                String query = "SELECT StudentID,  Password ,Name FROM studentaccount";
+                ResultSet resultSet = statement.executeQuery(query);
+                while (resultSet.next()) {
+                    String checkID = resultSet.getString("StudentID"); // 数据库中读出的用于验证登录的ID,username,password
+                    String checkPassword = resultSet.getString("Password");
+                    if (checkID.equals(ID) && checkPassword.equals(password)) {
+                        flag = true;
+                    }
+                }
+            }
+
+            else if (select == '2') { // 对教师身份的人进行身份验证
+                String query = "SELECT TeacherID, Password ,Name FROM teacheraccount";
+                ResultSet resultSet = statement.executeQuery(query);
+                while (resultSet.next()) {
+                    String checkID = resultSet.getString("TeacherID"); // 数据库中读出的用于验证登录的ID,username,password
+                    String checkPassword = resultSet.getString("Password");
+
+                    if (checkID.equals(ID) &&  checkPassword.equals(password)) {
+                        flag = true;
+                    }
+                }
+            }
+            else if (select == '3') { // 对管理员身份的人进行身份验证
+                String query = "SELECT ManagerID,Password , Name FROM manageraccount";
+                ResultSet resultSet = statement.executeQuery(query);
+                while (resultSet.next()) {
+                    String checkID = resultSet.getString("ManagerID"); // 数据库中读出的用于验证登录的ID,username,password
+                    String checkPassword = resultSet.getString("Password");
+                    if (checkID.equals(ID) && checkPassword.equals(password)) {
+                        flag = true;
+
+                    }
+                }
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        else if (select == '2') {//Teacher
-            return true;
-        }
-        else if (select == '3') {//Manager
-            return true;
-        }
-        return true;
+        return flag;
     }
+
+
 
     //学生操作
     public static void studentMainMenuOperate (Identity user) {

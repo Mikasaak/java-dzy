@@ -1,5 +1,11 @@
 package main.java;
 
+
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter
+@ToString
 public abstract class Identity {
     protected String name; // 姓名
     protected String password; // 密码

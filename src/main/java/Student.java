@@ -1,5 +1,6 @@
 package main.java;
 
+import lombok.Getter;
 import lombok.ToString;
 
 import java.sql.*;
@@ -8,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-
+@Getter
 @ToString
 public class Student extends Identity{
 

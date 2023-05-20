@@ -1,6 +1,5 @@
 package main.java.GUI;
 
-import groovy.lang.GString;
 import main.java.Manager;
 import main.java.Operate;
 import main.java.Student;
@@ -14,11 +13,6 @@ import java.awt.event.ActionListener;
 public class RoomReservationSystemGUI extends JFrame {
     private CardLayout cardLayout;
     private JPanel cardPanel;
-
-    private Student student = null;
-    private Teacher teacher = null;
-    private Manager manager = null;
-
     DefaultListCellRenderer renderer = new DefaultListCellRenderer() {
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index,
@@ -119,6 +113,118 @@ public class RoomReservationSystemGUI extends JFrame {
     }
 
 
+    public Student student=null;
+    public Teacher teacher=null;
+    private void addLoginPage(JPanel cardPanel) {
+        // 添加登录页面
+        JPanel loginPanel = createLoginPanel();
+        cardPanel.add(loginPanel, "Login");
+    }
+    private void addStudentPage(JPanel cardPanel,Student student) {
+        // 添加学生操作界面
+        JPanel studentPanel = createStudentPanel(student);
+        cardPanel.add(studentPanel, "Student");
+
+    }
+    private void addTeacherPage(JPanel cardPanel,Teacher teacher) {
+        // 添加教师操作界面
+        JPanel teacherPanel = createTeacherPanel(teacher);
+        cardPanel.add(teacherPanel, "Teacher");
+    }
+    private void addAdminPage(JPanel cardPanel,Manager manager) {
+        // 添加管理员界面
+        JPanel adminPanel = createAdminPanel(manager);
+        cardPanel.add(adminPanel, "Admin");
+    }
+    // 学生操作子界面
+    //加入添加预约界面
+    private void addAddReservationPage(JPanel cardPanel,Student student) {
+        JPanel addReservationPanel = createAddReservationPanel(student);
+        cardPanel.add(addReservationPanel, "AddReservation");
+    }
+    //加入查看预约界面
+    private void addMyReservationPage(JPanel cardPanel,Student student) {
+        JPanel myReservationPanel = createMyReservationPanel(student);
+        cardPanel.add(myReservationPanel, "MyReservation");
+    }
+    private void addAllReservationPage(JPanel cardPanel,Student student) {
+        JPanel allReservationPage = createAllReservationsPanel(student);
+        cardPanel.add(allReservationPage, "AllReservation");
+    }
+
+    //加入取消预约界面
+    private void addCancelReservationPage(JPanel cardPanel,Student student) {
+        JPanel cancelReservationPanel = createCancelReservationPanel(student);
+        cardPanel.add(cancelReservationPanel, "CancelReservation");
+    }
+
+
+    //教师操作子界面
+    //        //教师操作子界面
+//        //添加审核预约界面
+//        JPanel auditOrderPanel = createAuditOrderPanel(teacher);
+//        cardPanel.add(auditOrderPanel, "AuditOrder");
+
+    private void addAuditOrderPage(JPanel cardPanel,Teacher teacher) {
+        JPanel auditOrderPanel = createAuditOrderPanel(teacher);
+        cardPanel.add(auditOrderPanel, "AuditOrder");
+    }
+//
+//        //添加查看所有预约界面
+//        JPanel checkAllOrderPanel = createCheckAllOrderPanel(teacher);
+//        cardPanel.add(checkAllOrderPanel, "CheckAllOrder");
+    private void addCheckAllOrderPage(JPanel cardPanel,Teacher teacher) {
+        JPanel checkAllOrderPanel = createCheckAllOrderPanel(teacher);
+        cardPanel.add(checkAllOrderPanel, "CheckAllOrder");
+    }
+//
+//        //添加查看学生账号界面
+//        JPanel checkStudentAccountPanel = createCheckStudentAccountPanel(teacher);
+//        cardPanel.add(checkStudentAccountPanel, "CheckStudentAccount");
+
+    private void addCheckStudentAccountPage(JPanel cardPanel,Teacher teacher) {
+        JPanel checkStudentAccountPanel = createCheckStudentAccountPanel(teacher);
+        cardPanel.add(checkStudentAccountPanel, "CheckStudentAccount");
+    }
+//
+//        //管理员操作子界面
+//        //添加查看账号界面
+//        JPanel checkAccountPanel = createCheckAccountPanel(manager);
+//        cardPanel.add(checkAccountPanel, "CheckAccount");
+    private void addCheckAccountPage(JPanel cardPanel,Manager manager) {
+        JPanel checkAccountPanel = createCheckAccountPanel(manager);
+        cardPanel.add(checkAccountPanel, "CheckAccount");
+    }
+//
+//        //添加添加账号界面
+//        JPanel addAccountPanel = createAddAccountPanel(manager);
+//        cardPanel.add(addAccountPanel, "AddAccount");
+//
+    private void addAddAccountPage(JPanel cardPanel,Manager manager) {
+        JPanel addAccountPanel = createAddAccountPanel(manager);
+        cardPanel.add(addAccountPanel, "AddAccount");
+    }
+//        //添加删除账号界面
+//        JPanel deleteAccountPanel = createDeleteAccountPanel(manager);
+//        cardPanel.add(deleteAccountPanel, "DeleteAccount");
+    private void addDeleteAccountPage(JPanel cardPanel,Manager manager) {
+        JPanel deleteAccountPanel = createDeleteAccountPanel(manager);
+        cardPanel.add(deleteAccountPanel, "DeleteAccount");
+    }
+//
+//        //添加清空预约界面
+//        JPanel clearReservationPanel = createClearReservationPanel(manager);
+//        cardPanel.add(clearReservationPanel, "ClearReservation");
+    private void addClearReservationPage(JPanel cardPanel,Manager manager) {
+        JPanel clearReservationPanel = createClearReservationPanel(manager);
+        cardPanel.add(clearReservationPanel, "ClearReservation");
+    }
+
+
+
+
+
+
 
     public RoomReservationSystemGUI() {
         setTitle("机房预约系统");
@@ -130,73 +236,11 @@ public class RoomReservationSystemGUI extends JFrame {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         // 添加登录页面
-        JPanel loginPanel = createLoginPanel();
-        cardPanel.add(loginPanel, "Login");
-        // 添加学生操作界面
-        JPanel studentPanel = null;
-        cardPanel.add(studentPanel, "Student");
-        // 添加教师操作界面
-        JPanel teacherPanel = createTeacherPanel(teacher);
-        cardPanel.add(teacherPanel, "Teacher");
-        // 添加管理员界面
-        JPanel adminPanel = createAdminPanel(manager);
-        cardPanel.add(adminPanel, "Admin");
-
-        // 学生操作子界面
-        // 添加添加预约界面
-        JPanel addReservationPanel = createAddReservationPanel(student);
-        cardPanel.add(addReservationPanel, "AddReservation");
-
-        // 添加查看我的预约界面
-        JPanel myReservationPanel = createMyReservationPanel(student);
-        cardPanel.add(myReservationPanel, "MyReservation");
-
-        // 添加查看所有预约界面
-        JPanel allReservationsPanel = createAllReservationsPanel(student);
-        cardPanel.add(allReservationsPanel, "AllReservations");
-
-        // 添加取消预约界面
-        JPanel cancelReservationPanel = createCancelReservationPanel(student);
-        cardPanel.add(cancelReservationPanel, "CancelReservation");
-
-        //教师操作子界面
-        //添加审核预约界面
-        JPanel auditOrderPanel = createAuditOrderPanel(teacher);
-        cardPanel.add(auditOrderPanel, "AuditOrder");
-
-        //添加查看所有预约界面
-        JPanel checkAllOrderPanel = createCheckAllOrderPanel(teacher);
-        cardPanel.add(checkAllOrderPanel, "CheckAllOrder");
-
-        //添加查看学生账号界面
-        JPanel checkStudentAccountPanel = createCheckStudentAccountPanel(teacher);
-        cardPanel.add(checkStudentAccountPanel, "CheckStudentAccount");
-
-        //管理员操作子界面
-        //添加查看账号界面
-        JPanel checkAccountPanel = createCheckAccountPanel(manager);
-        cardPanel.add(checkAccountPanel, "CheckAccount");
-
-        //添加添加账号界面
-        JPanel addAccountPanel = createAddAccountPanel(manager);
-        cardPanel.add(addAccountPanel, "AddAccount");
-
-        //添加删除账号界面
-        JPanel deleteAccountPanel = createDeleteAccountPanel(manager);
-        cardPanel.add(deleteAccountPanel, "DeleteAccount");
-
-        //添加清空预约界面
-        JPanel clearReservationPanel = createClearReservationPanel(manager);
-        cardPanel.add(clearReservationPanel, "ClearReservation");
+        addLoginPage(cardPanel);
         add(cardPanel);
         // 显示登录页面
         showLoginPage();
     }
-
-
-
-
-
 
     //登录界面
     private JPanel createLoginPanel() {
@@ -230,36 +274,37 @@ public class RoomReservationSystemGUI extends JFrame {
                 String name = nameTextField.getText();
                 String id = idTextField.getText();
                 String password = new String(passwordField.getPassword());
+                passwordField.setText("");
 
                 // 根据身份和登录信息进行登录验证
                 boolean loginSuccess = performLogin(identity, name, id, password);
 
                 if (loginSuccess) {
                     if (identity.equals("学生")) {
-                        if(Operate.loginPart(name,id,password,'1')) {
+                        if(Operate.loginPart(id,password,'1')) {
                             JOptionPane.showMessageDialog(panel, "登录成功！", "登录成功", JOptionPane.INFORMATION_MESSAGE);
                             student = new Student("1", "1", "1");
-                            createStudentPanel(student);
+                            addStudentPage(cardPanel,student);
                             showStudentPage();
                         }
                         else {
                             JOptionPane.showMessageDialog(panel, "登录失败，请检查您的登录信息。", "登录失败", JOptionPane.ERROR_MESSAGE);
                         }
                     } else if (identity.equals("教师")) {
-                        if(Operate.loginPart(name,id,password,'2')) {
+                        if(Operate.loginPart(id,password,'2')) {
                             JOptionPane.showMessageDialog(panel, "登录成功！", "登录成功", JOptionPane.INFORMATION_MESSAGE);
                             teacher = new Teacher("1", "1", "1");
-                            createTeacherPanel(teacher);
+                            addTeacherPage(cardPanel,teacher);
                             showTeacherPage();
                         }
                         else {
                             JOptionPane.showMessageDialog(panel, "登录失败，请检查您的登录信息。", "登录失败", JOptionPane.ERROR_MESSAGE);
                         }
                     } else if (identity.equals("管理员")) {
-                        if(Operate.loginPart(name,id,password,'3')) {
+                        if(Operate.loginPart(id,password,'3')) {
                             JOptionPane.showMessageDialog(panel, "登录成功！", "登录成功", JOptionPane.INFORMATION_MESSAGE);
-                            manager = new Manager("1", "1", "1");
-                            createAdminPanel(manager);
+                            Manager manager = new Manager("1", "1", "1");
+                            addAdminPage(cardPanel,manager);
                             showAdminPage();
                         }
                         else {
@@ -275,12 +320,13 @@ public class RoomReservationSystemGUI extends JFrame {
         return panel;
     }
 
-    //学生操作界面
+//    学生操作界面
     private JPanel createStudentPanel(Student student) {
+
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         // 添加标题
-        JLabel titleLabel = CreateJLabel(panel,"学生操作界面",700,  60,0 ,0);
+        JLabel titleLabel = CreateJLabel(panel,"学生操作界面"+student.getStudentID(),700,  60,0 ,0);
 
         // 添加预约按钮
         JButton addReservationButton = CreateJButton(panel,"预约",300,  80,50 ,0);
@@ -299,35 +345,50 @@ public class RoomReservationSystemGUI extends JFrame {
         JButton backButton = CreateJButton(panel,"退出登录",300,  80,200 ,0);
 
         // 设置按钮的事件监听器
+
+        final Student student1 = this.student;
+        //预约按钮
         addReservationButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                createAddReservationPanel(student);
+                addAddReservationPage(cardPanel,student1);
                 showAddReservationPage();
             }
         });
 
+        //查看我的预约按钮
         myReservationButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                addMyReservationPage(cardPanel,student1);
                 showMyReservationPage();
             }
         });
-
+        //查看所有预约按钮
         AllReservationButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                addAllReservationPage(cardPanel,student1);
                 showAllReservationsPage();
             }
         });
 
+        //取消预约按钮
         cancelReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                addCancelReservationPage(cardPanel,student1);
                 showCancelReservationPage();
             }
         });
 
+        //返回按钮
+
+
+        student = this.student;
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -420,7 +481,7 @@ public class RoomReservationSystemGUI extends JFrame {
     private JPanel createMyReservationPanel(Student student) {
         JPanel panel = new JPanel(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("所有预约");
+        JLabel titleLabel = new JLabel("我的预约");
         SetTextFormatJLabel(titleLabel);
         panel.add(titleLabel, BorderLayout.NORTH);
 
@@ -467,7 +528,7 @@ public class RoomReservationSystemGUI extends JFrame {
     private JPanel createAllReservationsPanel( Student student) {
         JPanel panel = new JPanel(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("所有预约");
+        JLabel titleLabel = new JLabel("所有预约" +student.getStudentID());
         SetTextFormatJLabel(titleLabel);
         panel.add(titleLabel, BorderLayout.NORTH);
 
@@ -964,7 +1025,6 @@ public class RoomReservationSystemGUI extends JFrame {
     }
 
 
-    // 查看所有预约记录
     private void showLoginPage() {
         cardLayout.show(cardPanel, "Login");
     }
@@ -986,7 +1046,7 @@ public class RoomReservationSystemGUI extends JFrame {
 
     // 显示所有预约记录页面
     private void showAllReservationsPage() {
-        cardLayout.show(cardPanel, "AllReservations");
+        cardLayout.show(cardPanel, "AllReservation");
     }
 
     // 显示取消预约页面
@@ -1015,10 +1075,6 @@ public class RoomReservationSystemGUI extends JFrame {
     private void showAdminPage() {
         cardLayout.show(cardPanel, "Admin");
     }
-//    CheckAccountPanel
-//            AddAccountPanel
-//    DeleteAccountPanel
-//            ClearReservationPanel
     private void showCheckAccountPage() {
         cardLayout.show(cardPanel, "CheckAccount");
     }
