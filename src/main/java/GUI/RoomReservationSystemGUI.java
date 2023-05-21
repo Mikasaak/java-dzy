@@ -253,8 +253,8 @@ public class RoomReservationSystemGUI extends JFrame {
         String[] identities = {"教师", "学生", "管理员"};
         JComboBox<String> identityComboBox =  (JComboBox<String>) CreateJComboBox(panel,identities, 400, 50,0 ,0);
         // 输入姓名
-        JLabel nameLabel = CreateJLabel(panel,"姓名:",300,  50,0 ,0);//姓名标签
-        JTextField nameTextField = CreateJTextField(panel,400, 50,0 ,0);//姓名输入框
+//        JLabel nameLabel = CreateJLabel(panel,"姓名:",300,  50,0 ,0);//姓名标签
+//        JTextField nameTextField = CreateJTextField(panel,400, 50,0 ,0);//姓名输入框
 
         // 输入学号/工号
         JLabel idLabel = CreateJLabel(panel,"学号/工号:",300,  50,0 ,0);//学号/工号标签
@@ -271,47 +271,51 @@ public class RoomReservationSystemGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String identity = (String) identityComboBox.getSelectedItem();
-                String name = nameTextField.getText();
+//                String name = nameTextField.getText();
                 String id = idTextField.getText();
                 String password = new String(passwordField.getPassword());
                 passwordField.setText("");
-
                 // 根据身份和登录信息进行登录验证
-                boolean loginSuccess = performLogin(identity, name, id, password);
-
-                if (loginSuccess) {
-                    if (identity.equals("学生")) {
-                        if(Operate.loginPart(id,password,'1')) {
-                            JOptionPane.showMessageDialog(panel, "登录成功！", "登录成功", JOptionPane.INFORMATION_MESSAGE);
-                            student = new Student("1", "1", "1");
-                            addStudentPage(cardPanel,student);
-                            showStudentPage();
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(panel, "登录失败，请检查您的登录信息。", "登录失败", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else if (identity.equals("教师")) {
-                        if(Operate.loginPart(id,password,'2')) {
-                            JOptionPane.showMessageDialog(panel, "登录成功！", "登录成功", JOptionPane.INFORMATION_MESSAGE);
-                            teacher = new Teacher("1", "1", "1");
-                            addTeacherPage(cardPanel,teacher);
-                            showTeacherPage();
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(panel, "登录失败，请检查您的登录信息。", "登录失败", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else if (identity.equals("管理员")) {
-                        if(Operate.loginPart(id,password,'3')) {
-                            JOptionPane.showMessageDialog(panel, "登录成功！", "登录成功", JOptionPane.INFORMATION_MESSAGE);
-                            Manager manager = new Manager("1", "1", "1");
-                            addAdminPage(cardPanel,manager);
-                            showAdminPage();
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(panel, "登录失败，请检查您的登录信息。", "登录失败", JOptionPane.ERROR_MESSAGE);
-                        }
+                if (identity.equals("学生")) {
+                    Pair<Boolean, String> pair = Operate.loginPart(id, password, '1');
+                    if(pair.getKey()){
+                        JOptionPane.showMessageDialog(panel, "登录成功！", "登录成功", JOptionPane.INFORMATION_MESSAGE);
+                        student = new Student(id, password, pair.getValue());
+                        System.out.println(student.getName());
+                        addStudentPage(cardPanel,student);
+                        showStudentPage();
                     }
-                } else {
+                    else {
+                        JOptionPane.showMessageDialog(panel, "登录失败，请检查您的登录信息。", "登录失败", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+                else if (identity.equals("教师")) {
+                    Pair<Boolean, String> pair = Operate.loginPart(id, password, '2');
+                    if(pair.getKey()) {
+                        JOptionPane.showMessageDialog(panel, "登录成功！", "登录成功", JOptionPane.INFORMATION_MESSAGE);
+                        teacher = new Teacher(id, password, pair.getValue());
+                        addTeacherPage(cardPanel,teacher);
+                        showTeacherPage();
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(panel, "登录失败，请检查您的登录信息。", "登录失败", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+                else if (identity.equals("管理员")) {
+                    Pair<Boolean, String> pair = Operate.loginPart(id, password, '3');
+                    if(pair.getKey()) {
+                        JOptionPane.showMessageDialog(panel, "登录成功！", "登录成功", JOptionPane.INFORMATION_MESSAGE);
+                        Manager manager = new Manager(id, password, pair.getValue());
+                        addAdminPage(cardPanel,manager);
+                        showAdminPage();
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(panel, "登录失败，请检查您的登录信息。", "登录失败", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else {
                     JOptionPane.showMessageDialog(panel, "登录失败，请检查您的登录信息。", "登录失败", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -325,18 +329,17 @@ public class RoomReservationSystemGUI extends JFrame {
 
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        // 添加标题
-        JLabel titleLabel = CreateJLabel(panel,"学生操作界面"+student.getStudentID(),700,  60,0 ,0);
+        JLabel titleLabel = CreateJLabel(panel,"同学 "+student.getName()+" 请选择你的操作",700,  60, 0,0);
 
         // 添加预约按钮
-        JButton addReservationButton = CreateJButton(panel,"预约",300,  80,50 ,0);
+        JButton addReservationButton = CreateJButton(panel,"预约",300,  80,60 ,0);
 
         // 添加查看我的预约按钮
         JButton myReservationButton = CreateJButton(panel,"查看我的预约",300,  80,20 ,0);
 
 
         // 添加查看所有预约按钮
-        JButton AllReservationButton = CreateJButton(panel,"查看所有预约",300,  80,50 ,0);
+        JButton AllReservationButton = CreateJButton(panel,"查看所有预约",300,  80,60 ,0);
         // 添加取消预约按钮
         JButton cancelReservationButton = CreateJButton(panel,"取消预约",300,  80,20 ,0);
 
@@ -675,7 +678,7 @@ public class RoomReservationSystemGUI extends JFrame {
     //教师操作界面
     private JPanel createTeacherPanel(Teacher teacher) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JLabel titleLabel = CreateJLabel( panel ,"教师操作页面", 700, 70,0,0);
+        JLabel titleLabel = CreateJLabel( panel ,"教师 "+ teacher.getName() + "请选择您的操作", 700, 70,0,0);
 
         // 添加审批预约按钮
         JButton auditOrderButton = CreateJButton(panel, "审批预约", 220, 100, 25, 0);
@@ -868,7 +871,7 @@ public class RoomReservationSystemGUI extends JFrame {
     private JPanel createAdminPanel(Manager manager) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        JLabel titleLabel = CreateJLabel( panel ,"管理员操作页面", 700, 70,0,0);
+        JLabel titleLabel = CreateJLabel( panel ,"管理员 "+manager.getName() +"请选择您的操作", 700, 70,0,0);
 
         // 添加查看账号按钮
         JButton checkAccountButton = CreateJButton(panel, "查看账号", 220, 100, 25, 0);
@@ -1002,12 +1005,7 @@ public class RoomReservationSystemGUI extends JFrame {
 
 
     // 登录验证
-    private boolean performLogin(String identity, String name, String id, String password) {
-        // 执行登录验证的逻辑
-        // 返回登录验证结果，登录成功返回true，登录失败返回false
-        return true;//test
-//        return false;
-    }
+
 
     // 添加预约
     private boolean addReservation(String date, String timeSlot, String purpose) {

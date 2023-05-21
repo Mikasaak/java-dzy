@@ -23,6 +23,9 @@ public class Student extends Identity{
         super.password=password;
         super.name =name;
     }
+    public String getName() {
+        return super.name;
+    }
 
 
     @Override
@@ -71,7 +74,7 @@ public class Student extends Identity{
             try {
                 Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
                 Statement statement = connection.createStatement();
-                String sql = "SELECT * FROM computerroom WHERE ComputerRoomID = " + roomID;
+                String sql = "SELECT * FROM computerroom WHERE ComputerRoomID = '" + roomID+"'";
                 ResultSet resultSet = statement.executeQuery(sql);
                 if (!resultSet.next()) {
                     resultSet.close();
@@ -141,7 +144,7 @@ public class Student extends Identity{
                 try {
                     Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
                     Statement statement = connection.createStatement();
-                    String sql = "SELECT * FROM `order` WHERE ComputerRoomID = " + roomID;
+                    String sql = "SELECT * FROM `order` WHERE ComputerRoomID = '" + roomID+"'";
                     ResultSet resultSet = statement.executeQuery(sql);
                     while (resultSet.next()) {
                         Date startdate = format.parse(resultSet.getString("StartDateTime"));
@@ -211,12 +214,13 @@ public class Student extends Identity{
             Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
 //            Statement statement = connection.createStatement();
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String sql = "SELECT * FROM `order` WHERE StudentID = " + this.StudentID + " AND StudentName = " + super.name;
+            String sql = "SELECT * FROM `order` WHERE StudentID = '" + this.StudentID+"'" + " AND StudentName = '" + super.name+"'";
             ResultSet resultSet = statement.executeQuery(sql);
             if (!resultSet.next()) {
                 System.out.println("您暂无预约");
                 return;
             }
+            resultSet.previous();
             System.out.println("您的预约为:");
             while (resultSet.next()) {
                 System.out.println("预约编号: "+ resultSet.getString("id")+" 机房编号: " + resultSet.getString("ComputerRoomID") + " 开始时间: " + resultSet.getString("StartDateTime") + " 结束时间: " + resultSet.getString("EndDateTime") + " 状态: " + resultSet.getString("Status"));
@@ -233,7 +237,7 @@ public class Student extends Identity{
             Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
 //            Statement statement = connection.createStatement();
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String sql = "SELECT * FROM `order` WHERE StudentID = " + this.StudentID + " AND StudentName = " + super.name;
+            String sql = "SELECT * FROM `order` WHERE StudentID = '" + this.StudentID+"'" + " AND StudentName = '" + super.name+"'";
             ResultSet resultSet = statement.executeQuery(sql);
             if (!resultSet.next()) {
                 info = new StringBuilder("您暂无预约");
@@ -312,10 +316,10 @@ public class Student extends Identity{
             try {
                 Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
                 Statement statement = connection.createStatement();
-                String sql = "SELECT * FROM `order` WHERE StudentID = " + this.StudentID + " AND StudentName = " + super.name + " AND id = " + orderID;
+                String sql = "SELECT * FROM `order` WHERE StudentID = '" + this.StudentID+"'" + " AND StudentName = '" + super.name+"'" + " AND id = '" + orderID+"'";
                 ResultSet resultSet = statement.executeQuery(sql);
                 if (resultSet.next()) {
-                    String sqlDelete = "DELETE FROM `order` WHERE id = " + orderID;
+                    String sqlDelete = "DELETE FROM `order` WHERE id = '" + orderID+"'";
                     statement.executeUpdate(sqlDelete);
                     System.out.println("取消成功");
                     break;

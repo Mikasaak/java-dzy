@@ -1,5 +1,7 @@
 package main.java;
 
+import main.java.GUI.Pair;
+
 import java.sql.*;
 import java.util.Scanner;
 import java.sql.Connection;
@@ -83,8 +85,13 @@ public class Operate {
         return person;
     }
 
-    public static boolean loginPart(String ID, String password, char select) {
+
+    public static Pair<Boolean,String> loginPart(String ID, String password, char select) {
         boolean flag = false;
+        String checkID = null;
+        String checkPassword = null;
+        String checkName = null;
+
         try {
             // 连接数据库
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -94,10 +101,13 @@ public class Operate {
                 String query = "SELECT StudentID,  Password ,Name FROM studentaccount";
                 ResultSet resultSet = statement.executeQuery(query);
                 while (resultSet.next()) {
-                    String checkID = resultSet.getString("StudentID"); // 数据库中读出的用于验证登录的ID,username,password
-                    String checkPassword = resultSet.getString("Password");
+                    checkID = resultSet.getString("StudentID"); // 数据库中读出的用于验证登录的ID,username,password
+                    checkPassword = resultSet.getString("Password");
+                    checkName = resultSet.getString("Name");// 将读取到的Name赋值给checkName
+//                    System.out.println(checkName);
                     if (checkID.equals(ID) && checkPassword.equals(password)) {
                         flag = true;
+                        break;
                     }
                 }
             }
@@ -106,11 +116,12 @@ public class Operate {
                 String query = "SELECT TeacherID, Password ,Name FROM teacheraccount";
                 ResultSet resultSet = statement.executeQuery(query);
                 while (resultSet.next()) {
-                    String checkID = resultSet.getString("TeacherID"); // 数据库中读出的用于验证登录的ID,username,password
-                    String checkPassword = resultSet.getString("Password");
-
+                    checkID = resultSet.getString("TeacherID"); // 数据库中读出的用于验证登录的ID,username,password
+                    checkPassword = resultSet.getString("Password");
+                    checkName = resultSet.getString("Name");// 将读取到的Name赋值给checkName
                     if (checkID.equals(ID) &&  checkPassword.equals(password)) {
                         flag = true;
+                        break;
                     }
                 }
             }
@@ -118,13 +129,17 @@ public class Operate {
                 String query = "SELECT ManagerID,Password , Name FROM manageraccount";
                 ResultSet resultSet = statement.executeQuery(query);
                 while (resultSet.next()) {
-                    String checkID = resultSet.getString("ManagerID"); // 数据库中读出的用于验证登录的ID,username,password
-                    String checkPassword = resultSet.getString("Password");
+                    checkID = resultSet.getString("ManagerID"); // 数据库中读出的用于验证登录的ID,username,password
+                    checkPassword = resultSet.getString("Password");
+                    checkName = resultSet.getString("Name");// 将读取到的Name赋值给checkName
                     if (checkID.equals(ID) && checkPassword.equals(password)) {
                         flag = true;
-
+                        break;
                     }
                 }
+            }
+            else {
+               flag = false;
             }
             statement.close();
             connection.close();
@@ -133,7 +148,11 @@ public class Operate {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return flag;
+        Boolean islogin = flag;
+        String name = checkName;
+        Pair<Boolean,String> pair = new Pair<>(islogin,name);
+        return pair;
+
     }
 
 
