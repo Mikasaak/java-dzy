@@ -26,12 +26,55 @@ public class RoomReservationSystemGUI extends JFrame {
         }
     };
     Font fontBig = new Font("", Font.BOLD, 18);
-
-
-    private void SetTextFormatJLabel(JLabel jLabel) {
+    Font fontSmall = new Font("", Font.BOLD, 13);
+    Font fontMiddle = new Font("", Font.BOLD, 15);
+    private Font FountSet(int fountWidth ,int fountSize ) {
+        return new Font("", fountWidth, fountSize);
+    }
+    private Font FountSet(String fountFamily,int fountWidth ,int fountSize) {
+        return new Font(fountFamily, fountWidth, fountSize);
+    }
+    private  void SetTextFormatJLabel(JLabel jLabel) {
         jLabel.setFont(fontBig);
         jLabel.setHorizontalAlignment(JLabel.CENTER);
     }
+    private void SetTextFormatJTextField(JTextField jTextField) {
+        jTextField.setFont(fontBig);
+        jTextField.setHorizontalAlignment(JTextField.CENTER);
+    }
+
+
+    private void SetTextFormatJButton(JButton jButton) {
+        jButton.setFont(fontBig);
+        jButton.setHorizontalAlignment(JButton.CENTER);
+    }
+    private void SetTextFormatJComboBox(JComboBox jComboBox) {
+        jComboBox.setFont(fontBig);
+        jComboBox.setRenderer(renderer);
+    }
+
+    private void SetTextFormat(JLabel jLabel , Font font, int alignment) {
+        jLabel.setFont(font);
+        jLabel.setHorizontalAlignment(alignment);
+    }
+    private void SetTextFormat(JTextField jTextField , Font font, int alignment) {
+        jTextField.setFont(font);
+        jTextField.setHorizontalAlignment(alignment);
+    }
+    private void SetTextFormat(JButton jButton , Font font, int alignment) {
+        jButton.setFont(font);
+        jButton.setHorizontalAlignment(alignment);
+    }
+    private void SetTextFormat(JComboBox<?> jComboBox , Font font,DefaultListCellRenderer renderer) {
+        jComboBox.setFont(font);
+        jComboBox.setRenderer(renderer);
+    }
+    private void SetTextFormat(JPasswordField jPasswordField , Font font, int alignment) {
+        jPasswordField.setFont(font);
+        jPasswordField.setHorizontalAlignment(alignment);
+    }
+
+
 
     private JLabel CreateEmptyJLabel( int width, int height) {
         JLabel jLabel = new JLabel("");
@@ -52,12 +95,34 @@ public class RoomReservationSystemGUI extends JFrame {
         jPanel.add(rightEmpty);
         return jLabel;
     }
+    private JLabel CreateJLabel( JPanel jPanel,String text, int width, int height, int left, int right, Font font ,int alignment) {
+        JLabel jLabel = new JLabel(text);
+        JLabel leftEmpty = CreateEmptyJLabel(left, height);
+        JLabel rightEmpty = CreateEmptyJLabel(right, height);
+        jLabel.setPreferredSize(new Dimension(width, height));
+        SetTextFormat(jLabel,font,alignment);
+        jPanel.add(leftEmpty);
+        jPanel.add(jLabel);
+        jPanel.add(rightEmpty);
+        return jLabel;
+    }
     private JTextField CreateJTextField( JPanel jPanel ,int width, int height,int left, int right) {
         JTextField jTextField = new JTextField();
         JLabel leftEmpty = CreateEmptyJLabel(left, height);
         JLabel rightEmpty = CreateEmptyJLabel(right, height);
         jTextField.setPreferredSize(new Dimension(width, height));
         SetTextFormatJTextField(jTextField);
+        jPanel.add(leftEmpty);
+        jPanel.add(jTextField);
+        jPanel.add(rightEmpty);
+        return jTextField;
+    }
+    private JTextField CreateJTextField( JPanel jPanel ,int width, int height,int left, int right, Font font ,int alignment) {
+        JTextField jTextField = new JTextField();
+        JLabel leftEmpty = CreateEmptyJLabel(left, height);
+        JLabel rightEmpty = CreateEmptyJLabel(right, height);
+        jTextField.setPreferredSize(new Dimension(width, height));
+        SetTextFormat(jTextField,font,alignment);
         jPanel.add(leftEmpty);
         jPanel.add(jTextField);
         jPanel.add(rightEmpty);
@@ -74,12 +139,37 @@ public class RoomReservationSystemGUI extends JFrame {
         jPanel.add(rightEmpty);
         return jPasswordField;
     }
+
+    private JPasswordField CreateJPasswordField(  JPanel jPanel,int width, int height,int left, int right, Font font ,int alignment) {
+        JPasswordField jPasswordField = new JPasswordField();
+        JLabel leftEmpty = CreateEmptyJLabel(left, height);
+        JLabel rightEmpty = CreateEmptyJLabel(right, height);
+        jPasswordField.setPreferredSize(new Dimension(width, height));
+        SetTextFormat(jPasswordField,font,alignment);
+        jPanel.add(leftEmpty);
+        jPanel.add(jPasswordField);
+        jPanel.add(rightEmpty);
+        return jPasswordField;
+    }
+
     private JButton CreateJButton( JPanel jPanel,String text, int width, int height,int left, int right) {
         JButton jButton = new JButton(text);
         JLabel leftEmpty = CreateEmptyJLabel(left, height);
         JLabel rightEmpty = CreateEmptyJLabel(right, height);
         jButton.setPreferredSize(new Dimension(width, height));
         SetTextFormatJButton(jButton);
+        jPanel.add(leftEmpty);
+        jPanel.add(jButton);
+        jPanel.add(rightEmpty);
+        return jButton;
+    }
+
+    private JButton CreateJButton( JPanel jPanel,String text, int width, int height,int left, int right, Font font ,int alignment) {
+        JButton jButton = new JButton(text);
+        JLabel leftEmpty = CreateEmptyJLabel(left, height);
+        JLabel rightEmpty = CreateEmptyJLabel(right, height);
+        jButton.setPreferredSize(new Dimension(width, height));
+        SetTextFormat(jButton,font,alignment);
         jPanel.add(leftEmpty);
         jPanel.add(jButton);
         jPanel.add(rightEmpty);
@@ -99,19 +189,21 @@ public class RoomReservationSystemGUI extends JFrame {
         jPanel.add(rightEmpty);
         return jComboBox;
     }
+    private JComboBox<?> CreateJComboBox(JPanel jPanel , String[] items, int width, int height,int left, int right, Font font ,int alignment) {
+        JComboBox<?> jComboBox = new JComboBox<>(items);
+        JLabel leftEmpty = CreateEmptyJLabel(left, height);
+        JLabel rightEmpty = CreateEmptyJLabel(right, height);
+        jComboBox.setPreferredSize(new Dimension(width, height));
+        // Apply text format settings
+        SetTextFormat(jComboBox,font,renderer);
+        jComboBox.setSelectedIndex(0);
+        jPanel.add(leftEmpty);
+        jPanel.add(jComboBox);
+        jPanel.add(rightEmpty);
+        return jComboBox;
+    }
 
-    private void SetTextFormatJTextField(JTextField jTextField) {
-        jTextField.setFont(fontBig);
-        jTextField.setHorizontalAlignment(JTextField.CENTER);
-    }
-    private void SetTextFormatJButton(JButton jButton) {
-        jButton.setFont(fontBig);
-        jButton.setHorizontalAlignment(JButton.CENTER);
-    }
-    private void SetTextFormatJComboBox(JComboBox jComboBox) {
-        jComboBox.setFont(fontBig);
-        jComboBox.setRenderer(renderer);
-    }
+
 
 
     public Student student=null;
@@ -404,11 +496,11 @@ public class RoomReservationSystemGUI extends JFrame {
 
     //添加预约界面
     private JPanel createAddReservationPanel(Student student) {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panel = new JPanel(new BorderLayout());
         JLabel titleLabel = new JLabel("申请预约页面");
         SetTextFormatJLabel(titleLabel);
         titleLabel.setPreferredSize(new Dimension(700, 50));
-        panel.add(titleLabel);
+        panel.add(titleLabel, BorderLayout.NORTH);
         // 创建用于显示数据的文本区域
         JTextArea reservationTextArea = null;
 //        JScrollPane scrollPane = new JScrollPane(reservationTextArea);
@@ -439,43 +531,37 @@ public class RoomReservationSystemGUI extends JFrame {
         // 添加内容到JTextArea
         reservationTextArea.append(reservationInfo);
 //        panel.add(scrollPane, BorderLayout.CENTER);
+        JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        inputPanel.setPreferredSize(new Dimension(300, 200));
 
 
 
         // 输入要预约的机房编号
-        JLabel computerRoomNumberLabel = new JLabel("输入预约的机房编号:");
-        JTextField computerRoomNumberTextField = new JTextField();
-        SetTextFormatJLabel(computerRoomNumberLabel);
-        SetTextFormatJTextField(computerRoomNumberTextField);
-        computerRoomNumberLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        computerRoomNumberLabel.setPreferredSize(new Dimension(200, 50));
-        computerRoomNumberTextField.setPreferredSize(new Dimension(100, 50));
-        panel.add(computerRoomNumberLabel);
-        panel.add(computerRoomNumberTextField);
+        JLabel computerRoomNumberLabel = CreateJLabel(inputPanel,"请输入要预约的机房编号",200,  50,0 ,0);
+        JTextField computerRoomNumberTextField =CreateJTextField(inputPanel,100,  50,0 ,0);
+//        computerRoomNumberLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // 输入预约的开始时间
+        JLabel startTimeLabel = CreateJLabel(inputPanel,"请输入预约的开始时间",200,  50,0 ,0);
+        JTextField startTimeTextField =CreateJTextField(inputPanel,100,  50,0 ,0);
+        // 输入预约的结束时间
+        JLabel endTimeLabel = CreateJLabel(inputPanel,"请输入预约的结束时间",200,  50,0 ,0);
+        JTextField endTimeTextField =CreateJTextField(inputPanel,100,  50,0 ,0);
 
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        buttonPanel.setPreferredSize(new Dimension(300, 200));
         // 提交按钮
-        JButton submitButton = new JButton("提交");
-        SetTextFormatJButton(submitButton);
-        setPreferredSize(new Dimension(100, 50));
-        panel.add(submitButton);
-
-        JLabel spaceItem = new JLabel(" ");
-        spaceItem.setPreferredSize(new Dimension(200, 50));
-        panel.add(spaceItem);
-
-
+        JButton submitButton = CreateJButton(buttonPanel,"提交",100,  50,0 ,0);
         // 返回按钮
-        JButton backButton = new JButton("返回");
-        SetTextFormatJButton(backButton);
-        setPreferredSize(new Dimension(100, 50));
-        panel.add(backButton);
-
-
-
-
+        JButton backButton = CreateJButton(buttonPanel,"返回",100,  50,0 ,0);
 
         // 设置按钮的事件监听器
         submitButton.addActionListener(new ActionListener() {
+            // 点击提交按钮后执行的操作
+            //获取输入的信息
+            String computerRoomNumber = computerRoomNumberTextField.getText();
+            String startTime = startTimeTextField.getText();
+            String endTime = endTimeTextField.getText();
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 String reservationNumber = computerRoomNumberTextField.getText();
@@ -499,6 +585,8 @@ public class RoomReservationSystemGUI extends JFrame {
             }
         });
 
+        panel.add(inputPanel, BorderLayout.EAST);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
         return panel;
     }
 
