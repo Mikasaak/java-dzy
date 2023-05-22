@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Parameter;
 
 public class RoomReservationSystemGUI extends JFrame {
     private CardLayout cardLayout;
@@ -760,10 +759,8 @@ public class RoomReservationSystemGUI extends JFrame {
                 showStudentPage();
             }
         });
-
         return panel;
     }
-
 
     //教师操作界面
     private JPanel createTeacherPanel(Teacher teacher) {
@@ -837,12 +834,9 @@ public class RoomReservationSystemGUI extends JFrame {
         textArea.setLineWrap(true);// 激活自动换行功能
         textArea.setWrapStyleWord(true);// 激活断行不断字功能
         JScrollPane scrollPane = new JScrollPane(textArea);
-        String reservationInfo = teacher.getAllReservationInfo();
+        String reservationInfo = teacher.getAuditingReservationInfo();
         // 添加内容到JTextArea
         textArea.append(reservationInfo);
-
-
-
         panel.add(scrollPane, BorderLayout.CENTER);
 
         // 创建两行的输入区域面板
@@ -873,10 +867,19 @@ public class RoomReservationSystemGUI extends JFrame {
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String t1 = orderIDTextField1.getText();
-                String t2 = (String) statusComboBox.getSelectedItem();
-                JOptionPane.showMessageDialog(panel, " t1: "+ t1 + " t2: " + t2, "title", JOptionPane.INFORMATION_MESSAGE);
-                orderIDTextField1.setText("");
+                String orderID = orderIDTextField1.getText();
+                String status = (String) statusComboBox.getSelectedItem();
+                Pair<Boolean, String> result = teacher.auditOrderPart(orderID, status);
+                if (result.getKey()) {
+                    JOptionPane.showMessageDialog(panel, result.getValue(), "提示", JOptionPane.INFORMATION_MESSAGE);
+                    orderIDTextField1.setText("");
+                    String newReservationInfo = teacher.getAuditingReservationInfo();
+                    textArea.setText(newReservationInfo);
+                    showAuditOrderPage();
+                } else {
+                    JOptionPane.showMessageDialog(panel, result.getValue(), "提示", JOptionPane.ERROR_MESSAGE);
+                    orderIDTextField1.setText("");
+                }
                 // 确定按钮的事件处理逻辑
             }
         });
