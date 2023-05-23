@@ -1,6 +1,9 @@
 package main.java;
 
+import main.java.GUI.Pair;
+
 import java.sql.*;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Manager extends Identity {
@@ -376,4 +379,210 @@ public class Manager extends Identity {
         }
 
     }
+
+
+    //获取学生账号信息
+    public String getStudentAccountInfo (){
+        String studentAccount= "";
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String sql = "SELECT * FROM studentaccount";
+            ResultSet resultSet = statement.executeQuery(sql);
+            studentAccount+="已有的学生账号信息如下:\n";
+            while(!resultSet.next()) {
+                studentAccount = "暂无学生账号信息";
+            }
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                String StudentID = resultSet.getString("StudentID");
+                String Password = resultSet.getString("Password");
+                String Name = resultSet.getString("Name");
+                studentAccount += "学生账号: " + StudentID + " 学生密码: " + Password + " 学生姓名: " + Name + "\n\n";
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return studentAccount;
+    }
+    public String getTeacherAccountInfo (){
+        String teacherAccount= "";
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String sql = "SELECT * FROM teacheraccount";
+            ResultSet resultSet = statement.executeQuery(sql);
+            teacherAccount+="已有的教师账号信息如下:\n";
+            while(!resultSet.next()) {
+                teacherAccount = "暂无教师账号信息";
+            }
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                String TeacherID = resultSet.getString("TeacherID");
+                String Password = resultSet.getString("Password");
+                String Name = resultSet.getString("Name");
+                teacherAccount += "教师账号: " + TeacherID + " 教师密码: " + Password + " 教师姓名: " + Name + "\n\n";
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return teacherAccount;
+    }
+
+    public String getManagerAccountInfo (){
+        String managerAccount= "";
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String sql = "SELECT * FROM manageraccount";
+            ResultSet resultSet = statement.executeQuery(sql);
+            managerAccount+="已有的管理员账号信息如下:\n";
+            while(!resultSet.next()) {
+                managerAccount = "暂无管理员账号信息";
+            }
+            while (resultSet.next()) {
+                String ManagerID = resultSet.getString("ManagerID");
+                String Password = resultSet.getString("Password");
+                String Name = resultSet.getString("Name");
+                managerAccount += "管理员账号: " + ManagerID + " 管理员密码: " + Password + " 管理员姓名: " + Name + "\n\n";
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return managerAccount;
+    }
+    public Pair<Boolean,String> addStudentAccountPart (String StudentID,String Password,String Name){
+        String info = "";
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM studentaccount WHERE StudentID = '" + StudentID + "'";
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                info += "该学生账号已存在";
+                return new Pair<>(false,info);
+            }
+            if (Objects.equals(StudentID, "") || Objects.equals(Password, "") || Objects.equals(Name, "")) {
+                info += "添加失败，信息不完整";
+                return new Pair<>(false,info);
+            }
+            sql = "INSERT INTO studentaccount VALUES ('" + StudentID + "','" + Password + "','" + Name + "')";
+            statement.executeUpdate(sql);
+            info += "添加成功";
+            
+        } catch (SQLException e) {
+            info += "添加失败";
+            return new Pair<>(false,info);
+//            throw new RuntimeException(e);
+        }
+        return new Pair<>(true,info);
+    }
+    public Pair<Boolean,String> addTeacherAccountPart (String TeacherID,String Password,String Name){
+        String info = "";
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM teacheraccount WHERE TeacherID = '" + TeacherID + "'";
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                info += "该教师账号已存在";
+                return new Pair<>(false,info);
+            }
+            if (Objects.equals(TeacherID, "") || Objects.equals(Password, "") || Objects.equals(Name, "")) {
+                info += "添加失败，信息不完整";
+                return new Pair<>(false,info);
+            }
+            sql = "INSERT INTO teacheraccount VALUES ('" + TeacherID + "','" + Password + "','" + Name + "')";
+            statement.executeUpdate(sql);
+            info += "添加成功";
+
+        } catch (SQLException e) {
+            info += "添加失败";
+            return new Pair<>(false,info);
+//            throw new RuntimeException(e);
+        }
+        return new Pair<>(true,info);
+    }
+    public Pair<Boolean,String> addManagerAccountPart (String ManagerID,String Password,String Name){
+        String info = "";
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM manageraccount WHERE ManagerID = '" + ManagerID + "'";
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                info += "该管理员账号已存在";
+                return new Pair<>(false,info);
+            }
+            if (Objects.equals(ManagerID, "") || Objects.equals(Password, "") || Objects.equals(Name, "")) {
+                info += "添加失败，信息不完整";
+                return new Pair<>(false,info);
+            }
+            sql = "INSERT INTO manageraccount VALUES ('" + ManagerID + "','" + Password + "','" + Name + "')";
+            statement.executeUpdate(sql);
+            info += "添加成功";
+
+        } catch (SQLException e) {
+            info += "添加失败";
+            return new Pair<>(false,info);
+//            throw new RuntimeException(e);
+        }
+        return new Pair<>(true,info);
+    }
+
+    public Pair<Boolean,String> deleteStudentAccountPart (String StudentID) {
+        String info = "";
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM studentaccount WHERE StudentID = '" + StudentID + "'";
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (!resultSet.next()) {
+                info += "该学生账号不存在";
+                return new Pair<>(false, info);
+            }
+            if (Objects.equals(StudentID, "")) {
+                info += "删除失败，信息不完整";
+                return new Pair<>(false, info);
+            }
+            sql = "DELETE FROM studentaccount WHERE StudentID = '" + StudentID + "'";
+            statement.executeUpdate(sql);
+            info += "删除成功";
+
+        } catch (SQLException e) {
+            info += "删除失败";
+            return new Pair<>(false, info);
+        }
+        return new Pair<>(true, info);
+    }
+    public Pair<Boolean,String> deleteTeacherAccountPart (String TeacherID) {
+        String info = "";
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM teacheraccount WHERE TeacherID = '" + TeacherID + "'";
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (!resultSet.next()) {
+                info += "该教师账号不存在";
+                return new Pair<>(false, info);
+            }
+            if (Objects.equals(TeacherID, "")) {
+                info += "删除失败，信息不完整";
+                return new Pair<>(false, info);
+            }
+            sql = "DELETE FROM teacheraccount WHERE TeacherID = '" + TeacherID + "'";
+            statement.executeUpdate(sql);
+            info += "删除成功";
+
+        } catch (SQLException e) {
+            info += "删除失败";
+            return new Pair<>(false, info);
+        }
+        return new Pair<>(true, info);
+    }
+
+
 }

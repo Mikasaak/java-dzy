@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<java-dzy:project xmlns:java-dzy="http://maven.apache.org/POM/4.0.0"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <java-dzy:modelVersion>4.0.0</java-dzy:modelVersion>
 
-    <groupId>groupId</groupId>
-    <artifactId>testDZY</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <java-dzy:groupId>groupId</java-dzy:groupId>
+    <java-dzy:artifactId>testDZY</java-dzy:artifactId>
+    <java-dzy:version>1.0-SNAPSHOT</java-dzy:version>
 
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.47</version>
-        </dependency>
-    </properties>
+    <java-dzy:properties>
+        <java-dzy:maven.compiler.source>17</java-dzy:maven.compiler.source>
+        <java-dzy:maven.compiler.target>17</java-dzy:maven.compiler.target>
+        <java-dzy:project.build.sourceEncoding>UTF-8</java-dzy:project.build.sourceEncoding>
+        <java-dzy:dependency>
+            <java-dzy:groupId>mysql</java-dzy:groupId>
+            <java-dzy:artifactId>mysql-connector-java</java-dzy:artifactId>
+            <java-dzy:version>5.1.47</java-dzy:version>
+        </java-dzy:dependency>
+    </java-dzy:properties>
 
 
 
-</project>
+</java-dzy:project>
