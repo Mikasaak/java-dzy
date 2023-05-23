@@ -916,7 +916,7 @@ public class RoomReservationSystemGUI extends JFrame {
         panel.add(scrollPane, BorderLayout.CENTER);
 
         // 获取预约信息
-        String reservationInfo = teacher.getAllReservationInfo();
+        String reservationInfo = teacher.getEveryReservationInfo();
         // 添加内容到JTextArea
         reservationTextArea.append(reservationInfo);
 //        panel.add(scrollPane, BorderLayout.CENTER);

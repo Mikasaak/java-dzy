@@ -94,6 +94,34 @@ public class Teacher extends Identity {
         }
         return info.toString();
     }
+    public String getEveryReservationInfo() {
+        StringBuilder info = new StringBuilder();
+        info.append("所有审核中和审核通过的预约为:\n");
+        try {
+            Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
+//            Statement statement = connection.createStatement();
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String sql = "SELECT * FROM `order`";
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (!resultSet.next()) {
+                info = new StringBuilder("暂无审核中和审核通过的预约");
+                return info.toString();
+            }
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                info.append("预约编号: ").append(resultSet.getString("id")).append(" 机房编号: ").append(resultSet.getString("ComputerRoomID"))
+                        .append(" 开始时间: ").append(resultSet.getString("StartDateTime"))
+                        .append(" 结束时间: ").append(resultSet.getString("EndDateTime"))
+                        .append(" 姓名: ").append(resultSet.getString("StudentName"))
+                        .append(" 学号: ").append(resultSet.getString("StudentID"))
+                        .append(" 状态: ").append(resultSet.getString("Status")).append("\n");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return info.toString();
+
+    }
 
 
     /**

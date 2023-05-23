@@ -187,7 +187,7 @@ public class Student extends Identity {
                     String sqlInsert = "INSERT INTO `order`\n" +
                             "(`order`.ComputerRoomID,`order`.StartDateTime,`order`.EndDateTime,`order`.StudentName,`order`.StudentID,`order`.`Status`)\n" +
                             "VALUES\n" +
-                            "('" + roomID + "','" + date + "','" + date2 + "','" + this.StudentID + "','" + super.name + "','审核中')";
+                            "('" + roomID + "','" + date + "','" + date2 + "','" + super.name + "','" + this.StudentID + "','审核中')";
                     statement.executeUpdate(sqlInsert);
                     statement.close();
                     connection.close();
@@ -234,7 +234,7 @@ public class Student extends Identity {
             Connection connection = DriverManager.getConnection(jdbcUrl, sqlpassword, sqlpassword);
 //            Statement statement = connection.createStatement();
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String sql = "SELECT * FROM `order` WHERE StudentID = '" + this.StudentID + "'" + " AND StudentName = '" + super.name + "'";
+            String sql = "SELECT * FROM `order` WHERE StudentID = '" + this.StudentID+"'";
             ResultSet resultSet = statement.executeQuery(sql);
             if (!resultSet.next()) {
                 info = new StringBuilder("您暂无预约");
@@ -343,6 +343,8 @@ public class Student extends Identity {
             }
         }
     }
+
+
 
     public Pair<Boolean, String> cancelMyOrderPart(String orderID) {
         String info = "";
@@ -542,7 +544,7 @@ public class Student extends Identity {
                 String sqlInsert = "INSERT INTO `order`\n" +
                         "(`order`.ComputerRoomID,`order`.StartDateTime,`order`.EndDateTime,`order`.StudentName,`order`.StudentID,`order`.`Status`)\n" +
                         "VALUES\n" +
-                        "('" + computerRoomID + "','" + startDateTime + "','" + date2 + "','" + this.StudentID + "','" + super.name + "','审核中')";
+                        "('" + computerRoomID + "','" + startDateTime + "','" + date2 + "','" + super.name + "','" +this.StudentID + "','审核中')";
                 statement.executeUpdate(sqlInsert);
                 statement.close();
                 connection.close();
