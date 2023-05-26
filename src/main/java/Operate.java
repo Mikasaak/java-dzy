@@ -104,7 +104,7 @@ public class Operate {
                     checkID = resultSet.getString("StudentID"); // 数据库中读出的用于验证登录的ID,username,password
                     checkPassword = resultSet.getString("Password");
                     checkName = resultSet.getString("Name");// 将读取到的Name赋值给checkName
-//                    System.out.println(checkName);
+
                     if (checkID.equals(ID) && checkPassword.equals(password)) {
                         flag = true;
                         break;
